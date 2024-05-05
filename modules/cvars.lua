@@ -13,7 +13,7 @@ local cvarList = {
 
 addon:RegisterEvent("VARIABLES_LOADED")
 
-function module:VARIABLES_LOADED(name)
+function module:VARIABLES_LOADED()
   for cvar, value in pairs(cvarList) do
     SetCVar(cvar, value)
   end
