@@ -1,0 +1,10 @@
+## Interface: 11500
+## Title: stakoTweaks
+
+main.lua
+
+modules/cvars.lua
+modules/combat_text.lua
+modules/nameplates.lua
+modules/totems.lua
+modules/power_bar.lua
