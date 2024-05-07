@@ -20,14 +20,13 @@ function module:ADDON_LOADED(name)
   COMBAT_TEXT_TYPE_INFO["HEAL"].show = nil
   -- COMBAT_TEXT_TYPE_INFO["SPLIT_DAMAGE"].show = nil
 
-  COMBAT_TEXT_TYPE_INFO["RESIST"] = {r = 1, g = 0.1, b = 0.1, show = nil}
-  COMBAT_TEXT_TYPE_INFO["BLOCK"] = {r = 1, g = 0.1, b = 0.1, show = nil}
-  COMBAT_TEXT_TYPE_INFO["ABSORB"] = {r = 1, g = 0.1, b = 0.1, show = nil}
-  COMBAT_TEXT_TYPE_INFO["SPELL_RESIST"] = {r = 0.79, g = 0.3, b = 0.85, show = nil}
-  COMBAT_TEXT_TYPE_INFO["SPELL_BLOCK"] = {r = 1, g = 1, b = 1, show = nil}
-  COMBAT_TEXT_TYPE_INFO["SPELL_ABSORB"] = {r = 0.79, g = 0.3, b = 0.85, show = nil}
+  COMBAT_TEXT_TYPE_INFO["RESIST"].show = nil
+  COMBAT_TEXT_TYPE_INFO["BLOCK"].show = nil
+  COMBAT_TEXT_TYPE_INFO["ABSORB"].show = nil
+  COMBAT_TEXT_TYPE_INFO["SPELL_RESIST"].show = nil
+  COMBAT_TEXT_TYPE_INFO["SPELL_BLOCK"].show = nil
+  COMBAT_TEXT_TYPE_INFO["SPELL_ABSORB"].show = nil
 
-  COMBAT_TEXT_TYPE_INFO["ENERGIZE"] = {r = 0.1, g = 0.55, b = 1, cvar = "floatingCombatTextEnergyGains"}
   COMBAT_TEXT_TYPE_INFO["ENTERING_COMBAT"] = {r = 1, g = 0.1, b = 0.19, cvar = "floatingCombatTextCombatState"}
   COMBAT_TEXT_TYPE_INFO["LEAVING_COMBAT"] = {r = 0.1, g = 1, b = 0.19, cvar = "floatingCombatTextCombatState"}
 
