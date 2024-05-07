@@ -32,6 +32,7 @@ function module:ADDON_LOADED(name)
   COMBAT_TEXT_ENTERING_COMBAT = "++ |cFFFFFFFFCombat|r ++"
   COMBAT_TEXT_LEAVING_COMBAT = "–– |cFFFFFFFFCombat|r ––"
   HEALTH_LOW = "Low Health"
+  MANA_LOW = "Low Mana"
 
   COMBAT_TEXT_HEIGHT = 20
   COMBAT_TEXT_CRIT_MAXHEIGHT = 50
