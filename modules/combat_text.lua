@@ -43,6 +43,8 @@ function module:ADDON_LOADED(name)
     font = _G["CombatText"..i]
     font:SetFontObject(CombatTextFontOutline)
   end
+
+  CombatText:SetScript("OnEvent", self.CombatText_OnEvent)
 end
 
 function module:UNIT_HEALTH(unit)
@@ -77,6 +79,56 @@ function module:UpdateExecuteThreshold()
     addon:RegisterUnitEvent("UNIT_HEALTH", "target")
     addon:RegisterEvent("PLAYER_TARGET_CHANGED")
   end
+end
+
+function module:CombatText_OnEvent(event, ...)
+	if not self:IsVisible() then
+		CombatText_ClearAnimationList()
+		return
+	end
+
+	local arg1, data, arg3, arg4 = ...
+	local messageType, message
+	local displayType
+
+  messageType = arg1
+	if event ~= "COMBAT_TEXT_UPDATE" or messageType ~= "ENERGIZE" then
+    CombatText_OnEvent(self, event, ...)
+    return
+  end
+
+	data, arg3, arg4 = GetCurrentCombatTextEventInfo()
+	local info = COMBAT_TEXT_TYPE_INFO[messageType]
+	if not info.show then return end
+
+
+  local count =  tonumber(data)
+  if (count > 0 ) then
+    data = "+"..BreakUpLargeNumbers(data)
+  else
+    return
+  end
+  if( arg3 == "MANA"
+    or arg3 == "RAGE"
+    or arg3 == "FOCUS"
+    or arg3 == "ENERGY"
+    or arg3 == "RUNIC_POWER"
+    or arg3 == "DEMONIC_FURY") then
+    message = "|cFFFFFFFF"..data.."|r ".._G[arg3]
+  elseif ( arg3 == "HOLY_POWER"
+      or arg3 == "SOUL_SHARDS"
+      or arg3 == "CHI"
+      or arg3 == "COMBO_POINTS"
+      or arg3 == "ARCANE_CHARGES" ) then
+    local numPower = UnitPower( "player" , GetPowerEnumFromEnergizeString(arg3) )
+    message = "|cFFFFFFFF<"..numPower.."|r ".._G[arg3].."|cFFFFFFFF>|r"
+    if ( UnitPower( "player" , GetPowerEnumFromEnergizeString(arg3)) == UnitPowerMax(self.unit, GetPowerEnumFromEnergizeString(arg3))) then
+      displayType = "crit"
+    end
+	end
+
+  info = PowerBarColor[arg3]
+	CombatText_AddMessage(message, COMBAT_TEXT_SCROLL_FUNCTION, info.r, info.g, info.b, displayType, false)
 end
 
 module:UpdateExecuteThreshold()
