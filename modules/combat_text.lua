@@ -74,7 +74,7 @@ function module:UpdateExecuteThreshold()
 
   if addon.playerClass == "ROGUE" and GetPrimaryTalentTree() == 1 then
     executeThreshold = 0.35
-    executeMessage = "Backstab!"
+    executeMessage = "Backstab"
     addon:RegisterUnitEvent("UNIT_HEALTH", "target")
     addon:RegisterEvent("PLAYER_TARGET_CHANGED")
   end
