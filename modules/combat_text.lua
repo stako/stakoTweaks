@@ -50,6 +50,8 @@ function module:UNIT_HEALTH(unit)
   if executeThreshold == nil or unit ~= "target" or UnitCanAttack("player", unit) == false then return end
 
   local value, max = UnitHealth(unit), UnitHealthMax(unit)
+  if value == 0 then return end
+
   local threshold = max * executeThreshold
 
   if (previousHealth == 0 or previousHealth > threshold) and value < threshold then
