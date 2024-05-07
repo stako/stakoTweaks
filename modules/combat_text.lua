@@ -29,10 +29,10 @@ function module:ADDON_LOADED(name)
 
   COMBAT_TEXT_TYPE_INFO["ENERGIZE"] = {r = 0.1, g = 0.55, b = 1, cvar = "floatingCombatTextEnergyGains"}
   COMBAT_TEXT_TYPE_INFO["ENTERING_COMBAT"] = {r = 1, g = 0.1, b = 0.19, cvar = "floatingCombatTextCombatState"}
-  COMBAT_TEXT_TYPE_INFO["LEAVING_COMBAT"] = COMBAT_TEXT_TYPE_INFO["ENTERING_COMBAT"]
+  COMBAT_TEXT_TYPE_INFO["LEAVING_COMBAT"] = {r = 0.1, g = 1, b = 0.19, cvar = "floatingCombatTextCombatState"}
 
-  COMBAT_TEXT_ENTERING_COMBAT = "Fight!"
-  COMBAT_TEXT_LEAVING_COMBAT = "Ninja Time!"
+  COMBAT_TEXT_ENTERING_COMBAT = "++ |cFFFFFFFFCombat|r ++"
+  COMBAT_TEXT_LEAVING_COMBAT = "–– |cFFFFFFFFCombat|r ––"
   HEALTH_LOW = "Low Health"
 
   COMBAT_TEXT_HEIGHT = 20
