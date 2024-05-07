@@ -15,17 +15,16 @@ function module:ADDON_LOADED(name)
   COMBAT_TEXT_TYPE_INFO["DAMAGE"].show = nil
   COMBAT_TEXT_TYPE_INFO["SPELL_DAMAGE"].show = nil
   COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL"].show = nil
-  -- COMBAT_TEXT_TYPE_INFO["SPELL_CAST"].show = nil
   COMBAT_TEXT_TYPE_INFO["HEAL_CRIT"].show = nil
   COMBAT_TEXT_TYPE_INFO["HEAL"].show = nil
-  -- COMBAT_TEXT_TYPE_INFO["SPLIT_DAMAGE"].show = nil
+  COMBAT_TEXT_TYPE_INFO["SPLIT_DAMAGE"].show = nil
 
-  COMBAT_TEXT_TYPE_INFO["RESIST"].show = nil
-  COMBAT_TEXT_TYPE_INFO["BLOCK"].show = nil
-  COMBAT_TEXT_TYPE_INFO["ABSORB"].show = nil
-  COMBAT_TEXT_TYPE_INFO["SPELL_RESIST"].show = nil
-  COMBAT_TEXT_TYPE_INFO["SPELL_BLOCK"].show = nil
-  COMBAT_TEXT_TYPE_INFO["SPELL_ABSORB"].show = nil
+  COMBAT_TEXT_TYPE_INFO["RESIST"].cvar = nil
+  COMBAT_TEXT_TYPE_INFO["BLOCK"].cvar = nil
+  COMBAT_TEXT_TYPE_INFO["ABSORB"].cvar = nil
+  COMBAT_TEXT_TYPE_INFO["SPELL_RESIST"].cvar = nil
+  COMBAT_TEXT_TYPE_INFO["SPELL_BLOCK"].cvar = nil
+  COMBAT_TEXT_TYPE_INFO["SPELL_ABSORB"].cvar = nil
 
   COMBAT_TEXT_TYPE_INFO["ENTERING_COMBAT"] = {r = 1, g = 0.1, b = 0.19, cvar = "floatingCombatTextCombatState"}
   COMBAT_TEXT_TYPE_INFO["LEAVING_COMBAT"] = {r = 0.1, g = 1, b = 0.19, cvar = "floatingCombatTextCombatState"}
