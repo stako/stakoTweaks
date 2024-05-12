@@ -28,6 +28,7 @@ function module:ADDON_LOADED(name)
 
   COMBAT_TEXT_TYPE_INFO["ENTERING_COMBAT"] = {r = 1, g = 0.1, b = 0.19, cvar = "floatingCombatTextCombatState"}
   COMBAT_TEXT_TYPE_INFO["LEAVING_COMBAT"] = {r = 0.4, g = 0.5, b = 1, cvar = "floatingCombatTextCombatState"}
+	COMBAT_TEXT_TYPE_INFO["HONOR_GAINED"] = {r = 1, g = 0.35, b = 0.25, cvar = "floatingCombatTextHonorGains"}
 
   COMBAT_TEXT_ENTERING_COMBAT = "++ |cFFFFFFFFCombat|r ++"
   COMBAT_TEXT_LEAVING_COMBAT = "–– |cFFFFFFFFCombat|r ––"
