@@ -318,7 +318,7 @@ function module:CombatText_OnEvent(event, ...)
 		end
 		data = floor(data)
 		if data > 0 then
-			data = "+"..data
+			data = "|cFFFFFFFF+"..data.."|r"
 		end
 		message = format(COMBAT_TEXT_HONOR_GAINED, data)
 	elseif messageType == "SPELL_ACTIVE" then
