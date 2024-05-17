@@ -4,7 +4,7 @@ local module = addon:NewModule()
 addon:RegisterEvent("ADDON_LOADED")
 addon:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 
-local previousHealth
+local previousHealth = 0
 local executeThreshold
 local executeMessage
 
@@ -40,8 +40,8 @@ function module:ADDON_LOADED(name)
   -- COMBAT_TEXT_CRIT_MAXHEIGHT = 50
   -- COMBAT_TEXT_CRIT_MINHEIGHT = 25
   COMBAT_TEXT_HEIGHT = 17
-  COMBAT_TEXT_CRIT_MAXHEIGHT = 38
-  COMBAT_TEXT_CRIT_MINHEIGHT = 20
+  COMBAT_TEXT_CRIT_MAXHEIGHT = 40
+  COMBAT_TEXT_CRIT_MINHEIGHT = 22
 
   for i=1, NUM_COMBAT_TEXT_LINES do
     font = _G["CombatText"..i]
