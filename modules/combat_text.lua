@@ -11,6 +11,8 @@ local executeMessage
 function module:ADDON_LOADED(name)
   if name ~= "Blizzard_CombatText" then return end
 
+  CombatText_UpdateDisplayedMessages = module.CombatText_UpdateDisplayedMessages
+
   COMBAT_TEXT_TYPE_INFO["DAMAGE_CRIT"].show = nil
   COMBAT_TEXT_TYPE_INFO["DAMAGE"].show = nil
   COMBAT_TEXT_TYPE_INFO["SPELL_DAMAGE"].show = nil
@@ -32,7 +34,7 @@ function module:ADDON_LOADED(name)
 
   COMBAT_TEXT_ENTERING_COMBAT = "++ |cFFFFFFFFCombat|r ++"
   COMBAT_TEXT_LEAVING_COMBAT = "–– |cFFFFFFFFCombat|r ––"
-  COMBAT_TEXT_COMBO_POINTS = "|cFFFFFFFF<%d |rCombo |4Point:Points;|cFFFFFFFF>|r"
+  COMBAT_TEXT_COMBO_POINTS = "|cFFFFFFFF<%d |rCombo |4Point:Points|cFFFFFFFF>|r"
   HEALTH_LOW = "Low Health"
   MANA_LOW = "Low Mana"
 
@@ -356,4 +358,57 @@ function module:CombatText_OnEvent(event, ...)
   if message then
     CombatText_AddMessage(message, COMBAT_TEXT_SCROLL_FUNCTION, info.r, info.g, info.b, displayType, isStaggered)
   end
+end
+
+function module.CombatText_UpdateDisplayedMessages()
+	-- set the unit to track
+	CombatText.unit = "player"
+	CombatTextSetActiveUnit("player")
+
+	-- Get scale
+	COMBAT_TEXT_Y_SCALE = WorldFrame:GetHeight() / 768
+	COMBAT_TEXT_X_SCALE = WorldFrame:GetWidth() / 1024
+	COMBAT_TEXT_SPACING = 10 * COMBAT_TEXT_Y_SCALE
+	COMBAT_TEXT_MAX_OFFSET = 130 * COMBAT_TEXT_Y_SCALE
+	COMBAT_TEXT_X_ADJUSTMENT = 80 * COMBAT_TEXT_X_SCALE
+
+	-- Update shown messages
+	for index, value in pairs(COMBAT_TEXT_TYPE_INFO) do
+		if ( value.cvar ) then
+			if ( CVarCallbackRegistry:GetCVarValueBool(value.cvar) ) then
+				value.show = 1
+			else
+				value.show = nil
+			end
+		end
+	end
+	-- Update scrolldirection
+	local textFloatMode = CVarCallbackRegistry:GetCVarValue("floatingCombatTextFloatMode")
+	if ( textFloatMode == "1" ) then
+		COMBAT_TEXT_SCROLL_FUNCTION = CombatText_StandardScroll
+		COMBAT_TEXT_LOCATIONS = {
+			startX = 0,
+			startY = 384 * COMBAT_TEXT_Y_SCALE,
+			endX = 0,
+			endY = 609 * COMBAT_TEXT_Y_SCALE
+		}
+
+	elseif ( textFloatMode == "2" ) then
+		COMBAT_TEXT_SCROLL_FUNCTION = CombatText_StandardScroll
+		COMBAT_TEXT_LOCATIONS = {
+			startX = 0,
+			startY = 448 * COMBAT_TEXT_Y_SCALE,
+			endX = 0,
+			endY =  223 * COMBAT_TEXT_Y_SCALE
+		}
+	else
+		COMBAT_TEXT_SCROLL_FUNCTION = CombatText_FountainScroll
+		COMBAT_TEXT_LOCATIONS = {
+			startX = 0,
+			startY = 384 * COMBAT_TEXT_Y_SCALE,
+			endX = 0,
+			endY = 609 * COMBAT_TEXT_Y_SCALE
+		}
+	end
+	CombatText_ClearAnimationList()
 end
