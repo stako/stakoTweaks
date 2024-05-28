@@ -9,7 +9,7 @@ function module:ADDON_LOADED(name)
   hooksecurefunc(NamePlateDriverFrame, "AcquireUnitFrame", self.AcquireUnitFrame)
 
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", function(self)
-    self.Text:Show()
+    if not self:IsForbidden() then self.Text:Show() end
   end)
 end
 
