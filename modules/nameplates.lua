@@ -7,10 +7,7 @@ function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
   hooksecurefunc(NamePlateDriverFrame, "AcquireUnitFrame", self.AcquireUnitFrame)
-
-  hooksecurefunc("Nameplate_CastBar_AdjustPosition", function(self)
-    if not self:IsForbidden() then self.Text:Show() end
-  end)
+  hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
 end
 
 function module:AcquireUnitFrame(namePlateFrameBase)
@@ -30,4 +27,8 @@ function module.UpdateNameOverride(frame)
   else
     name:SetFontObject(SystemFont_LargeNamePlate)
   end
+end
+
+function module.Nameplate_CastBar_AdjustPosition(castBar)
+  if not castBar:IsForbidden() then castBar.Text:Show() end
 end
