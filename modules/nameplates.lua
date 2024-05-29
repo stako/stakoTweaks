@@ -12,7 +12,11 @@ end
 
 function module:AcquireUnitFrame(namePlateFrameBase)
   local unitFrame = namePlateFrameBase.UnitFrame
-  unitFrame.UpdateNameOverride = module.UpdateNameOverride
+  if unitFrame:IsForbidden() then
+    unitFrame.UpdateNameOverride = nil
+  else
+    unitFrame.UpdateNameOverride = module.UpdateNameOverride
+  end
 end
 
 function module.UpdateNameOverride(frame)
@@ -20,7 +24,7 @@ function module.UpdateNameOverride(frame)
 
   if UnitIsUnit(frame.unit, "target") then
     name:Show()
-    name:SetText(GetUnitName(frame.unit, false))
+    name:SetText(GetUnitName(frame.unit, true))
     name:SetVertexColor(1, 1, 1, 1)
     name:SetFontObject(Game12Font_o1)
     return true
