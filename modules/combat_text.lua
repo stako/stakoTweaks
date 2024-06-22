@@ -34,7 +34,7 @@ function module:ADDON_LOADED(name)
 
   COMBAT_TEXT_ENTERING_COMBAT = "++ |cFFFFFFFFCombat|r ++"
   COMBAT_TEXT_LEAVING_COMBAT = "–– |cFFFFFFFFCombat|r ––"
-  COMBAT_TEXT_COMBO_POINTS = "|cFFFFFFFF<%d |rCombo |4Point:Points|cFFFFFFFF>|r"
+  COMBAT_TEXT_COMBO_POINTS = "|cFFFFFFFF<%d |rCombo |4Point:Points;|cFFFFFFFF>|r"
   HEALTH_LOW = "Low Health"
   MANA_LOW = "Low Mana"
 
