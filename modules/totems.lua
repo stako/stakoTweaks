@@ -14,4 +14,19 @@ function module:ADDON_LOADED(name)
      frame:SetHideCountdownNumbers(true)
     end
   end
+
+  local timers = {
+    TotemFrameTotem1Duration,
+    TotemFrameTotem2Duration,
+    TotemFrameTotem3Duration,
+    TotemFrameTotem4Duration,
+  }
+
+  for index, timer in ipairs(timers) do
+    timer:ClearAllPoints()
+    timer:SetPoint("BOTTOM", timer:GetParent(), "TOP", 0, 0)
+  end
+
+  TotemFrame:ClearAllPoints()
+  TotemFrame:SetPoint("BOTTOMLEFT", PlayerFrame, "TOPLEFT", 96, -38)
 end
