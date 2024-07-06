@@ -48,14 +48,30 @@ function module:TweakFrame(unitFrame)
   unitFrame.stakoTweaked = true
 
   local healthBar = unitFrame.healthBar
+  healthBar:ClearAllPoints()
+  healthBar:SetPoint("BOTTOMLEFT", 12, 4)
+  healthBar:SetPoint("BOTTOMRIGHT", -12, 4)
+
   healthBar.border:Hide()
   unitFrame.stakoBorder = CreateFrame("Frame", nil, healthBar, "stakoNamePlateFullBorderTemplate")
   self.UpdateSizes(unitFrame.stakoBorder)
+
+  local castBar = unitFrame.CastBar
+  castBar:ClearAllPoints()
+  castBar:SetPoint("TOP", healthBar, "BOTTOM", 8, -9)
 
   local castText = unitFrame.CastBar.Text
   castText:ClearAllPoints()
   castText:SetPoint("TOPLEFT", 0, 5)
   castText:SetPoint("TOPRIGHT", 0, 5)
+
+  local levelFrame = unitFrame.LevelFrame
+  levelFrame:ClearAllPoints()
+  levelFrame:SetPoint("LEFT", healthBar, "RIGHT", 3, 0)
+
+  local name = unitFrame.name
+  name:ClearAllPoints()
+  name:SetPoint("BOTTOM", healthBar, "TOP", 0, 4)
 end
 
 function module.UpdateHealthBorderOverride(frame)
