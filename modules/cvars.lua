@@ -2,7 +2,7 @@ local addonName, addon = ...
 local module = addon:NewModule()
 
 local cvarList = {
-  ColorNameplateNameBySelection = 1,
+  ColorNameplateNameBySelection = 0,
   noBuffDebuffFilterOnTarget = 0,
   WorldTextScale = 0.5,
   nameplateGlobalScale = 0.85,
