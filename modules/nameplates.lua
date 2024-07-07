@@ -12,9 +12,10 @@ function module:ADDON_LOADED(name)
   DefaultCompactNamePlateEnemyFrameOptions.selectedBorderColor = CreateColor(1, 1, 1, 0.8)
 end
 
-function module:AcquireUnitFrame(namePlateFrameBase)
+function module.AcquireUnitFrame(driverFrame, namePlateFrameBase)
+  if namePlateFrameBase:IsForbidden() then return end
+
   local unitFrame = namePlateFrameBase.UnitFrame
-  if unitFrame:IsForbidden() then return end
 
   unitFrame.UpdateNameOverride = module.UpdateNameOverride
   unitFrame.UpdateHealthBorderOverride = module.UpdateHealthBorderOverride
@@ -87,28 +88,26 @@ function module.UpdateHealthBorderOverride(frame)
   end
 end
 
-function module:UpdateSizes()
-  local borderSize = self.borderSize or 1
-  local minPixels = self.borderSizeMinPixels or 2
+function module.UpdateSizes(border)
+  local borderSize = 1
+  local minPixels = 2
 
-  local upwardExtendHeightPixels = self.upwardExtendHeightPixels or borderSize
-  local upwardExtendHeightMinPixels = self.upwardExtendHeightMinPixels or minPixels
+  local upwardExtendHeightPixels = borderSize
+  local upwardExtendHeightMinPixels = minPixels
 
-  PixelUtil.SetWidth(self.Left, borderSize, minPixels)
-  PixelUtil.SetPoint(self.Left, "TOPRIGHT", self, "TOPLEFT", 0, upwardExtendHeightPixels, 0, upwardExtendHeightMinPixels)
-  PixelUtil.SetPoint(self.Left, "BOTTOMRIGHT", self, "BOTTOMLEFT", 0, -borderSize, 0, minPixels)
+  PixelUtil.SetWidth(border.Left, borderSize, minPixels)
+  PixelUtil.SetPoint(border.Left, "TOPRIGHT", border, "TOPLEFT", 0, upwardExtendHeightPixels, 0, upwardExtendHeightMinPixels)
+  PixelUtil.SetPoint(border.Left, "BOTTOMRIGHT", border, "BOTTOMLEFT", 0, -borderSize, 0, minPixels)
 
-  PixelUtil.SetWidth(self.Right, borderSize, minPixels)
-  PixelUtil.SetPoint(self.Right, "TOPLEFT", self, "TOPRIGHT", 0, upwardExtendHeightPixels, 0, upwardExtendHeightMinPixels)
-  PixelUtil.SetPoint(self.Right, "BOTTOMLEFT", self, "BOTTOMRIGHT", 0, -borderSize, 0, minPixels)
+  PixelUtil.SetWidth(border.Right, borderSize, minPixels)
+  PixelUtil.SetPoint(border.Right, "TOPLEFT", border, "TOPRIGHT", 0, upwardExtendHeightPixels, 0, upwardExtendHeightMinPixels)
+  PixelUtil.SetPoint(border.Right, "BOTTOMLEFT", border, "BOTTOMRIGHT", 0, -borderSize, 0, minPixels)
 
-  PixelUtil.SetHeight(self.Bottom, borderSize, minPixels)
-  PixelUtil.SetPoint(self.Bottom, "TOPLEFT", self, "BOTTOMLEFT", 0, 0)
-  PixelUtil.SetPoint(self.Bottom, "TOPRIGHT", self, "BOTTOMRIGHT", 0, 0)
+  PixelUtil.SetHeight(border.Bottom, borderSize, minPixels)
+  PixelUtil.SetPoint(border.Bottom, "TOPLEFT", border, "BOTTOMLEFT", 0, 0)
+  PixelUtil.SetPoint(border.Bottom, "TOPRIGHT", border, "BOTTOMRIGHT", 0, 0)
 
-  if self.Top then
-    PixelUtil.SetHeight(self.Top, borderSize, minPixels)
-    PixelUtil.SetPoint(self.Top, "BOTTOMLEFT", self, "TOPLEFT", 0, 0)
-    PixelUtil.SetPoint(self.Top, "BOTTOMRIGHT", self, "TOPRIGHT", 0, 0)
-  end
+  PixelUtil.SetHeight(border.Top, borderSize, minPixels)
+  PixelUtil.SetPoint(border.Top, "BOTTOMLEFT", border, "TOPLEFT", 0, 0)
+  PixelUtil.SetPoint(border.Top, "BOTTOMRIGHT", border, "TOPRIGHT", 0, 0)
 end
