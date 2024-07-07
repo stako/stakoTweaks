@@ -8,8 +8,6 @@ function module:ADDON_LOADED(name)
 
   hooksecurefunc(NamePlateDriverFrame, "AcquireUnitFrame", self.AcquireUnitFrame)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
-
-  DefaultCompactNamePlateEnemyFrameOptions.selectedBorderColor = CreateColor(1, 1, 1, 0.8)
 end
 
 function module.AcquireUnitFrame(driverFrame, namePlateFrameBase)
@@ -73,18 +71,18 @@ function module:TweakFrame(unitFrame)
 end
 
 function module.UpdateHealthBorderOverride(frame)
-  if frame.optionTable.selectedBorderColor and UnitIsUnit(frame.displayedUnit, "target") then
-    for i, texture in ipairs(frame.stakoBorder.Textures) do
-      texture:SetVertexColor(frame.optionTable.selectedBorderColor:GetRGBA())
-    end
-    return true
+  if UnitIsUnit(frame.displayedUnit, "target") then
+    module.UpdateBorderColor(frame, 1, 1, 1, 0.75)
+  else
+    module.UpdateBorderColor(frame, 0, 0, 0, 0.75)
   end
 
-  if frame.optionTable.defaultBorderColor then
-    for i, texture in ipairs(frame.stakoBorder.Textures) do
-      texture:SetVertexColor(frame.optionTable.defaultBorderColor:GetRGBA())
-    end
-    return true
+  return true
+end
+
+function module.UpdateBorderColor(frame, r, g, b, a)
+  for i, texture in ipairs(frame.stakoBorder.Textures) do
+    texture:SetVertexColor(r, g, b, a)
   end
 end
 
