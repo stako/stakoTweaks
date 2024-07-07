@@ -25,8 +25,6 @@ end
 function module:ApplyFrameOptions(namePlateFrameBase, namePlateUnitToken)
   local unitFrame = namePlateFrameBase.UnitFrame
   if unitFrame:IsForbidden() then return end
-
-  unitFrame.healthBar:SetHeight(8)
 end
 
 function module.UpdateNameOverride(frame)
