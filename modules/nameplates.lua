@@ -15,27 +15,9 @@ function module.AcquireUnitFrame(driverFrame, namePlateFrameBase)
 
   local unitFrame = namePlateFrameBase.UnitFrame
 
+  module:TweakFrame(unitFrame)
   unitFrame.UpdateNameOverride = module.UpdateNameOverride
   unitFrame.UpdateHealthBorderOverride = module.UpdateHealthBorderOverride
-  module:TweakFrame(unitFrame)
-end
-
-function module.UpdateNameOverride(frame)
-  local name = frame.name
-
-  if UnitIsUnit(frame.unit, "target") then
-    name:Show()
-    name:SetText(GetUnitName(frame.unit, true))
-    name:SetVertexColor(1, 1, 1, 1)
-    name:SetFontObject(Game12Font_o1)
-    return true
-  else
-    name:SetFontObject(SystemFont_LargeNamePlate)
-  end
-end
-
-function module.Nameplate_CastBar_AdjustPosition(castBar)
-  if not castBar:IsForbidden() then castBar.Text:Show() end
 end
 
 function module:TweakFrame(unitFrame)
@@ -50,7 +32,7 @@ function module:TweakFrame(unitFrame)
 
   healthBar.border:Hide()
   unitFrame.stakoBorder = CreateFrame("Frame", nil, healthBar, "stakoNamePlateFullBorderTemplate")
-  self.UpdateSizes(unitFrame.stakoBorder)
+  self.UpdateBorderSizes(unitFrame.stakoBorder)
 
   local castBar = unitFrame.CastBar
   castBar:ClearAllPoints()
@@ -70,6 +52,20 @@ function module:TweakFrame(unitFrame)
   name:SetPoint("BOTTOM", healthBar, "TOP", 0, 4)
 end
 
+function module.UpdateNameOverride(frame)
+  local name = frame.name
+
+  if UnitIsUnit(frame.unit, "target") then
+    name:Show()
+    name:SetText(GetUnitName(frame.unit, true))
+    name:SetVertexColor(1, 1, 1, 1)
+    name:SetFontObject(Game12Font_o1)
+    return true
+  else
+    name:SetFontObject(SystemFont_LargeNamePlate)
+  end
+end
+
 function module.UpdateHealthBorderOverride(frame)
   if UnitIsUnit(frame.displayedUnit, "target") then
     module.UpdateBorderColor(frame, 1, 1, 1, 0.75)
@@ -80,13 +76,17 @@ function module.UpdateHealthBorderOverride(frame)
   return true
 end
 
+function module.Nameplate_CastBar_AdjustPosition(castBar)
+  if not castBar:IsForbidden() then castBar.Text:Show() end
+end
+
 function module.UpdateBorderColor(frame, r, g, b, a)
   for i, texture in ipairs(frame.stakoBorder.Textures) do
     texture:SetVertexColor(r, g, b, a)
   end
 end
 
-function module.UpdateSizes(border)
+function module.UpdateBorderSizes(border)
   local borderSize = 1
   local minPixels = 2
 
