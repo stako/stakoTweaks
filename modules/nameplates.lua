@@ -53,17 +53,38 @@ function module:TweakFrame(unitFrame)
 end
 
 function module.UpdateNameOverride(frame)
-  local name = frame.name
-
-  if UnitIsUnit(frame.unit, "target") then
-    name:Show()
-    name:SetText(GetUnitName(frame.unit, true))
-    name:SetVertexColor(1, 1, 1, 1)
-    name:SetFontObject(Game12Font_o1)
-    return true
+  if not ShouldShowName(frame) then
+    frame.name:Hide()
   else
-    name:SetFontObject(SystemFont_LargeNamePlate)
+    local name = GetUnitName(frame.unit, false)
+    if C_Commentator.IsSpectating() and name then
+      local overrideName = C_Commentator.GetPlayerOverrideName(name)
+      if overrideName then
+        name = overrideName
+      end
+    end
+
+    frame.name:SetText(name)
+
+    if UnitIsUnit(frame.unit, "target") then
+      frame.name:SetVertexColor(1, 1, 1)
+      frame.name:SetFontObject(Game12Font_o1)
+    else
+      frame.name:SetFontObject(SystemFont_LargeNamePlate)
+
+      if CompactUnitFrame_IsTapDenied(frame) or UnitIsDead(frame.unit) and not UnitIsPlayer(frame.unit) then
+        frame.name:SetVertexColor(0.5, 0.5, 0.5)
+      elseif frame.optionTable.colorNameBySelection then
+        frame.name:SetVertexColor(UnitSelectionColor(frame.unit, frame.optionTable.colorNameWithExtendedColors))
+      else
+        frame.name:SetVertexColor(1.0, 1.0, 1.0)
+      end
+    end
+
+    frame.name:Show()
   end
+
+  return true
 end
 
 function module.UpdateHealthBorderOverride(frame)
