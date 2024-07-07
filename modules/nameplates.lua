@@ -7,6 +7,7 @@ function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
   hooksecurefunc(NamePlateDriverFrame, "AcquireUnitFrame", self.AcquireUnitFrame)
+  hooksecurefunc(NamePlateDriverFrame, "ApplyFrameOptions", self.ApplyFrameOptions)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
 
   DefaultCompactNamePlateEnemyFrameOptions.selectedBorderColor = CreateColor(1, 1, 1, 0.8)
@@ -14,14 +15,18 @@ end
 
 function module:AcquireUnitFrame(namePlateFrameBase)
   local unitFrame = namePlateFrameBase.UnitFrame
-  if unitFrame:IsForbidden() then
-    unitFrame.UpdateNameOverride = nil
-    unitFrame.UpdateHealthBorderOverride = nil
-  else
-    unitFrame.UpdateNameOverride = module.UpdateNameOverride
-    unitFrame.UpdateHealthBorderOverride = module.UpdateHealthBorderOverride
-    module:TweakFrame(unitFrame)
-  end
+  if unitFrame:IsForbidden() then return end
+
+  unitFrame.UpdateNameOverride = module.UpdateNameOverride
+  unitFrame.UpdateHealthBorderOverride = module.UpdateHealthBorderOverride
+  module:TweakFrame(unitFrame)
+end
+
+function module:ApplyFrameOptions(namePlateFrameBase, namePlateUnitToken)
+  local unitFrame = namePlateFrameBase.UnitFrame
+  if unitFrame:IsForbidden() then return end
+
+  unitFrame.healthBar:SetHeight(8)
 end
 
 function module.UpdateNameOverride(frame)
