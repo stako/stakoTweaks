@@ -50,6 +50,9 @@ function module:TweakFrame(unitFrame)
   local name = unitFrame.name
   name:ClearAllPoints()
   name:SetPoint("BOTTOM", healthBar, "TOP", 0, 4)
+
+  unitFrame.LevelFrame.levelText:SetAlpha(0)
+  unitFrame.LevelFrame.highLevelTexture:SetAlpha(0)
 end
 
 function module.UpdateNameOverride(frame)
