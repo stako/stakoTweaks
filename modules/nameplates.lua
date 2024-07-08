@@ -17,13 +17,18 @@ function module.UpdateNamePlateOptions(driverFrame)
   local zeroBasedScale = tonumber(GetCVar("NamePlateVerticalScale")) - 1.0
   local horizontalScale = tonumber(GetCVar("NamePlateHorizontalScale"))
 
-  C_NamePlate.SetNamePlateFriendlySize(64 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
+  C_NamePlate.SetNamePlateFriendlySize(80 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
+  C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -40, 0)
 end
 
 function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnitToken)
   if namePlateFrameBase:IsForbidden() then return end
 
   module:TweakFrame(namePlateFrameBase.UnitFrame)
+
+  if module.insetsTweaked then return end
+
+  module.insetsTweaked = true
   C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -40, 0)
 end
 
