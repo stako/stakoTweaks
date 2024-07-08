@@ -2,8 +2,10 @@ local addonName, addon = ...
 local module = addon:NewModule()
 
 addon:RegisterEvent("ADDON_LOADED")
+addon:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local UnitIsUnit, UnitIsFriend, UnitIsPlayer = UnitIsUnit, UnitIsFriend, UnitIsPlayer
+local inForbiddenZone = false
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
@@ -13,12 +15,23 @@ function module:ADDON_LOADED(name)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
 end
 
+function module:PLAYER_ENTERING_WORLD()
+  local _, instanceType = IsInInstance()
+  inForbiddenZone = (instanceType == "party" or instanceType == "raid")
+  self.UpdateNamePlateOptions(NamePlateDriverFrame)
+end
+
 function module.UpdateNamePlateOptions(driverFrame)
   local zeroBasedScale = tonumber(GetCVar("NamePlateVerticalScale")) - 1.0
   local horizontalScale = tonumber(GetCVar("NamePlateHorizontalScale"))
 
-  C_NamePlate.SetNamePlateFriendlySize(80 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
-  C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -34, 0)
+  if inForbiddenZone then
+    C_NamePlate.SetNamePlateFriendlySize(driverFrame.baseNamePlateWidth * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
+    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
+  else
+    C_NamePlate.SetNamePlateFriendlySize(80 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
+    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -34, 0)
+  end
 end
 
 function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnitToken)
