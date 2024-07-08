@@ -26,7 +26,7 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
 
   module:TweakFrame(namePlateFrameBase.UnitFrame)
 
-  if module.insetsTweaked then return end
+  if module.insetsTweaked and not driverFrame.preferredInsets.friendly then return end
 
   module.insetsTweaked = true
   C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -40, 0)
