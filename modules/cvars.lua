@@ -10,6 +10,17 @@ local cvarList = {
   NamePlateVerticalScale = 0.8,
   clampTargetNameplateToScreen = 1,
   nameplateTargetRadialPosition = 1,
+  nameplateShowAll = 1,
+  nameplateShowEnemyGuardians = 1,
+  nameplateShowEnemyMinions = 0,
+  nameplateShowEnemyMinus = 0,
+  nameplateShowEnemyPets = 1,
+  nameplateShowEnemyTotems = 1,
+  nameplateShowFriendlyGuardians = 0,
+  nameplateShowFriendlyMinions = 0,
+  nameplateShowFriendlyNPCs = 0,
+  nameplateShowFriendlyPets = 0,
+  nameplateShowFriendlyTotems = 0,
 }
 
 addon:RegisterEvent("VARIABLES_LOADED")
