@@ -30,7 +30,7 @@ function module.UpdateNamePlateOptions(driverFrame)
     C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   else
     C_NamePlate.SetNamePlateFriendlySize(80 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
-    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -34, 0)
+    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
   end
 end
 
@@ -42,7 +42,7 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
   if module.insetsTweaked or not driverFrame.preferredInsets.friendly then return end
 
   module.insetsTweaked = true
-  C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -34, 0)
+  C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
 end
 
 function module:TweakFrame(unitFrame, namePlateUnitToken)
@@ -88,8 +88,8 @@ function module:TweakFrame(unitFrame, namePlateUnitToken)
   local classIcon = unitFrame:CreateTexture(nil, "ARTWORK")
   classIcon:SetSize(128, 128)
   -- classIcon:SetScale(0.3)
-  classIcon:SetScale(0.25)
-  classIcon:SetPoint("BOTTOM", name, "TOP", 0, 4)
+  classIcon:SetScale(0.21)
+  classIcon:SetPoint("BOTTOM", name, "TOP", 0, 30)
   unitFrame.stakoClassIcon = classIcon
 
   local classOverlay = unitFrame:CreateTexture(nil, "OVERLAY")
@@ -101,7 +101,7 @@ function module:TweakFrame(unitFrame, namePlateUnitToken)
   local mask = unitFrame:CreateMaskTexture(nil, "OVERLAY")
   mask:SetAtlas("CircleMaskScalable", true)
   -- mask:SetScale(0.65)
-  mask:SetScale(0.54)
+  mask:SetScale(0.5)
   mask:SetPoint("CENTER", classIcon)
   classIcon:AddMaskTexture(mask)
 end
