@@ -12,8 +12,8 @@ function module:ADDON_LOADED(name)
 
   hooksecurefunc(NamePlateDriverFrame, "OnNamePlateAdded", self.OnNamePlateAdded)
   hooksecurefunc(NamePlateDriverFrame, "OnUnitFactionChanged", self.OnNamePlateAdded)
-  hooksecurefunc(NamePlateDriverFrame, "UpdateNamePlateOptions", self.UpdateNamePlateOptions)
   hooksecurefunc(NamePlateDriverFrame, "ApplyFrameOptions", self.ApplyFrameOptions)
+  hooksecurefunc(NamePlateDriverFrame, "UpdateNamePlateOptions", self.UpdateNamePlateOptions)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
 end
 
@@ -27,6 +27,12 @@ function module.OnNamePlateAdded(driverFrame, namePlateUnitToken)
   module:UpdateNamePlate(nil, namePlateUnitToken)
 end
 
+function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnitToken)
+  if namePlateFrameBase:IsForbidden() then return end
+
+  module:ApplyTweaks(namePlateFrameBase.UnitFrame, namePlateUnitToken)
+end
+
 function module.UpdateNamePlateOptions(driverFrame)
   local zeroBasedScale = tonumber(GetCVar("NamePlateVerticalScale")) - 1.0
   local horizontalScale = tonumber(GetCVar("NamePlateHorizontalScale"))
@@ -38,17 +44,6 @@ function module.UpdateNamePlateOptions(driverFrame)
     C_NamePlate.SetNamePlateFriendlySize(80 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
     C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
   end
-end
-
-function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnitToken)
-  if namePlateFrameBase:IsForbidden() then return end
-
-  module:ApplyTweaks(namePlateFrameBase.UnitFrame, namePlateUnitToken)
-
-  if module.insetsTweaked or not driverFrame.preferredInsets.friendly then return end
-
-  module.insetsTweaked = true
-  C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
 end
 
 function module.Nameplate_CastBar_AdjustPosition(castBar)
