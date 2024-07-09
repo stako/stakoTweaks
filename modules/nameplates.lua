@@ -11,6 +11,7 @@ function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
   hooksecurefunc(NamePlateDriverFrame, "OnNamePlateAdded", self.OnNamePlateAdded)
+  hooksecurefunc(NamePlateDriverFrame, "OnUnitFactionChanged", self.OnNamePlateAdded)
   hooksecurefunc(NamePlateDriverFrame, "UpdateNamePlateOptions", self.UpdateNamePlateOptions)
   hooksecurefunc(NamePlateDriverFrame, "ApplyFrameOptions", self.ApplyFrameOptions)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
