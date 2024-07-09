@@ -51,6 +51,8 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
 end
 
 function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
+  if not namePlateUnitToken:find("nameplate") then return end
+
   namePlateFrameBase = namePlateFrameBase or C_NamePlate.GetNamePlateForUnit(namePlateUnitToken, false)
   if not namePlateFrameBase then return end
 
