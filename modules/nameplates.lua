@@ -4,7 +4,7 @@ local module = addon:NewModule()
 addon:RegisterEvent("ADDON_LOADED")
 addon:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-local UnitIsUnit, UnitIsFriend, UnitIsPlayer = UnitIsUnit, UnitIsFriend, UnitIsPlayer
+local UnitIsUnit, UnitIsFriend, UnitIsPlayer, UnitIsPossessed = UnitIsUnit, UnitIsFriend, UnitIsPlayer, UnitIsPossessed
 local inForbiddenZone = false
 
 function module:ADDON_LOADED(name)
@@ -55,7 +55,7 @@ function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
   if not namePlateFrameBase then return end
 
   local unitFrame = namePlateFrameBase.UnitFrame
-  local isFriend = UnitIsFriend("player", namePlateUnitToken)
+  local isFriend = UnitIsFriend("player", namePlateUnitToken) and not UnitIsPossessed(namePlateUnitToken)
   local isPlayer = UnitIsPlayer(namePlateUnitToken)
   local _, class = UnitClass(namePlateUnitToken)
 
