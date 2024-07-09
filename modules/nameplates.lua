@@ -10,6 +10,7 @@ local inForbiddenZone = false
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
+  hooksecurefunc(NamePlateDriverFrame, "OnNamePlateAdded", self.OnNamePlateAdded)
   hooksecurefunc(NamePlateDriverFrame, "UpdateNamePlateOptions", self.UpdateNamePlateOptions)
   hooksecurefunc(NamePlateDriverFrame, "ApplyFrameOptions", self.ApplyFrameOptions)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
@@ -19,6 +20,16 @@ function module:PLAYER_ENTERING_WORLD()
   local _, instanceType = IsInInstance()
   inForbiddenZone = (instanceType == "party" or instanceType == "raid")
   self.UpdateNamePlateOptions(NamePlateDriverFrame)
+end
+
+function module.OnNamePlateAdded(driverFrame, namePlateUnitToken)
+  local isFriend = UnitIsFriend("player", namePlateUnitToken) and UnitIsPlayer(namePlateUnitToken)
+  if not isFriend then return end
+
+  local namePlateFrameBase = C_NamePlate.GetNamePlateForUnit(namePlateUnitToken, false)
+  if not namePlateFrameBase then return end
+
+  CastingBarFrame_SetUnit(namePlateFrameBase.UnitFrame.CastBar, nil, nil, nil)
 end
 
 function module.UpdateNamePlateOptions(driverFrame)
@@ -71,8 +82,8 @@ function module:TweakFrame(unitFrame, namePlateUnitToken)
 
   local castText = unitFrame.CastBar.Text
   castText:ClearAllPoints()
-  castText:SetPoint("TOPLEFT", 0, 5)
-  castText:SetPoint("TOPRIGHT", 0, 5)
+  castText:SetPoint("TOPLEFT", 0, 6)
+  castText:SetPoint("TOPRIGHT", 0, 6)
 
   local levelFrame = unitFrame.LevelFrame
   levelFrame:ClearAllPoints()
