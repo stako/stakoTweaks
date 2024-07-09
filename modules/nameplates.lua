@@ -48,7 +48,7 @@ end
 function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnitToken)
   if namePlateFrameBase:IsForbidden() then return end
 
-  module:TweakFrame(namePlateFrameBase.UnitFrame, namePlateUnitToken)
+  module:ApplyTweaks(namePlateFrameBase.UnitFrame, namePlateUnitToken)
 
   if module.insetsTweaked or not driverFrame.preferredInsets.friendly then return end
 
@@ -56,7 +56,7 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
   C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
 end
 
-function module:TweakFrame(unitFrame, namePlateUnitToken)
+function module:ApplyTweaks(unitFrame, namePlateUnitToken)
   local isFriend = UnitIsFriend("player", namePlateUnitToken) and UnitIsPlayer(namePlateUnitToken)
   CompactUnitFrame_SetHideHealth(unitFrame, isFriend, 1)
 
