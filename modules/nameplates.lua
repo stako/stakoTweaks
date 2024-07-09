@@ -31,6 +31,10 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
   if namePlateFrameBase:IsForbidden() then return end
 
   module:ApplyTweaks(namePlateFrameBase.UnitFrame, namePlateUnitToken)
+
+  if not driverFrame.preferredInsets.friendly or module.firstInsetAdjustment or InCombatLockdown() then return end
+  module.firstInsetAdjustment = true
+  module.UpdateNamePlateOptions(driverFrame)
 end
 
 function module.UpdateNamePlateOptions(driverFrame)
