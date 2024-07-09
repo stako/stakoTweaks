@@ -51,6 +51,10 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
   C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
 end
 
+function module.Nameplate_CastBar_AdjustPosition(castBar)
+  if not castBar:IsForbidden() then castBar.Text:Show() end
+end
+
 function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
   if not namePlateUnitToken:find("nameplate") then return end
 
@@ -170,10 +174,6 @@ function module.UpdateHealthBorderOverride(frame)
   end
 
   return true
-end
-
-function module.Nameplate_CastBar_AdjustPosition(castBar)
-  if not castBar:IsForbidden() then castBar.Text:Show() end
 end
 
 function module.UpdateBorderColor(frame, r, g, b, a)
