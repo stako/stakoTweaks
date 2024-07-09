@@ -23,13 +23,7 @@ function module:PLAYER_ENTERING_WORLD()
 end
 
 function module.OnNamePlateAdded(driverFrame, namePlateUnitToken)
-  local isFriend = UnitIsFriend("player", namePlateUnitToken) and UnitIsPlayer(namePlateUnitToken)
-  if not isFriend then return end
-
-  local namePlateFrameBase = C_NamePlate.GetNamePlateForUnit(namePlateUnitToken, false)
-  if not namePlateFrameBase then return end
-
-  CastingBarFrame_SetUnit(namePlateFrameBase.UnitFrame.CastBar, nil, nil, nil)
+  module:UpdateNamePlate(nil, namePlateUnitToken)
 end
 
 function module.UpdateNamePlateOptions(driverFrame)
@@ -56,10 +50,18 @@ function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnit
   C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
 end
 
-function module:ApplyTweaks(unitFrame, namePlateUnitToken)
-  local isFriend = UnitIsFriend("player", namePlateUnitToken) and UnitIsPlayer(namePlateUnitToken)
-  CompactUnitFrame_SetHideHealth(unitFrame, isFriend, 1)
+function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
+  namePlateFrameBase = namePlateFrameBase or C_NamePlate.GetNamePlateForUnit(namePlateUnitToken, false)
+  if not namePlateFrameBase then return end
 
+  local unitFrame = namePlateFrameBase.UnitFrame
+  local isFriend = UnitIsFriend("player", namePlateUnitToken)
+
+  CompactUnitFrame_SetHideHealth(unitFrame, isFriend, 1)
+  CastingBarFrame_SetUnit(unitFrame.CastBar, isFriend and nil or unit, true, true)
+end
+
+function module:ApplyTweaks(unitFrame, namePlateUnitToken)
   if unitFrame.stakoTweaked then return end
 
   unitFrame.stakoTweaked = true
@@ -98,7 +100,6 @@ function module:ApplyTweaks(unitFrame, namePlateUnitToken)
 
   local classIcon = unitFrame:CreateTexture(nil, "ARTWORK")
   classIcon:SetSize(128, 128)
-  -- classIcon:SetScale(0.3)
   classIcon:SetScale(0.21)
   classIcon:SetPoint("BOTTOM", name, "TOP", 0, 30)
   unitFrame.stakoClassIcon = classIcon
@@ -111,7 +112,6 @@ function module:ApplyTweaks(unitFrame, namePlateUnitToken)
 
   local mask = unitFrame:CreateMaskTexture(nil, "OVERLAY")
   mask:SetAtlas("CircleMaskScalable", true)
-  -- mask:SetScale(0.65)
   mask:SetScale(0.5)
   mask:SetPoint("CENTER", classIcon)
   classIcon:AddMaskTexture(mask)
