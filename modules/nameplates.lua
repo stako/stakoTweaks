@@ -62,10 +62,11 @@ function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
 
   local unitFrame = namePlateFrameBase.UnitFrame
   local isFriend = UnitIsFriend("player", namePlateUnitToken) and not UnitIsPossessed(namePlateUnitToken)
+  local isTarget = UnitIsUnit("target", namePlateUnitToken)
   local isPlayer = UnitIsPlayer(namePlateUnitToken)
   local _, class = UnitClass(namePlateUnitToken)
 
-  CompactUnitFrame_SetHideHealth(unitFrame, isFriend, 1)
+  CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
   CastingBarFrame_SetUnit(unitFrame.CastBar, isFriend and nil or unit, true, true)
   unitFrame.stakoClassIcon:SetAtlas(GetClassAtlas(class))
   unitFrame.stakoClassIcon:SetShown(isFriend and isPlayer)
@@ -165,6 +166,8 @@ end
 
 function module.UpdateHealthBorderOverride(frame)
   local unit = frame.displayedUnit
+
+  module:UpdateNamePlate(frame:GetParent(), unit)
 
   if UnitIsUnit(unit, "target") then
     module.UpdateBorderColor(frame, 1, 1, 1, 0.75)
