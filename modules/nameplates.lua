@@ -67,7 +67,7 @@ function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
   local _, class = UnitClass(namePlateUnitToken)
 
   CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
-  CastingBarFrame_SetUnit(unitFrame.CastBar, isFriend and nil or unit, true, true)
+  CastingBarFrame_SetUnit(unitFrame.CastBar, not isFriend and namePlateUnitToken or nil, true, true)
   unitFrame.stakoClassIcon:SetAtlas(GetClassAtlas(class))
   unitFrame.stakoClassIcon:SetShown(isFriend and isPlayer)
   unitFrame.stakoClassOverlay:SetShown(isFriend and isPlayer)
