@@ -20,7 +20,7 @@ end
 function module:PLAYER_ENTERING_WORLD()
   local _, instanceType = IsInInstance()
   inForbiddenZone = (instanceType == "party" or instanceType == "raid")
-  self.UpdateNamePlateOptions(NamePlateDriverFrame)
+  module.UpdateNamePlateOptions(NamePlateDriverFrame)
 end
 
 function module.OnNamePlateAdded(driverFrame, namePlateUnitToken)
@@ -45,7 +45,7 @@ function module.UpdateNamePlateOptions(driverFrame)
     C_NamePlate.SetNamePlateFriendlySize(driverFrame.baseNamePlateWidth * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
     C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   else
-    C_NamePlate.SetNamePlateFriendlySize(80 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
+    C_NamePlate.SetNamePlateFriendlySize(60 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
     C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -36, 0)
   end
 end
@@ -68,7 +68,7 @@ function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
 
   CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
   CastingBarFrame_SetUnit(unitFrame.CastBar, not isFriend and namePlateUnitToken or nil, true, true)
-  unitFrame.stakoClassIcon:SetAtlas(GetClassAtlas(class))
+  unitFrame.stakoClassIcon:SetAtlas(GetClassAtlas(class or "WARRIOR"))
   unitFrame.stakoClassIcon:SetShown(isFriend and isPlayer)
   unitFrame.stakoClassOverlay:SetShown(isFriend and isPlayer)
 end
