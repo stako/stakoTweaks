@@ -88,6 +88,11 @@ function module:UpdateExecuteThreshold()
     executeMessage = "Backstab"
     addon:RegisterUnitEvent("UNIT_HEALTH", "target")
     addon:RegisterEvent("PLAYER_TARGET_CHANGED")
+  elseif addon.playerClass == "PRIEST" and GetPrimaryTalentTree() == 3 then
+    executeThreshold = 0.25
+    executeMessage = "Death"
+    addon:RegisterUnitEvent("UNIT_HEALTH", "target")
+    addon:RegisterEvent("PLAYER_TARGET_CHANGED")
   end
 end
 
