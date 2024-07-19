@@ -183,8 +183,12 @@ function module:CombatText_OnEvent(event, ...)
     data, arg3, arg4 = GetCurrentCombatTextEventInfo()
     messageType = arg1
     if messageType == "SPELL_CAST" and data == "Lock and Load" then messageType = "SPELL_ACTIVE" end
-    if messageType == "SPELL_CAST" and data == "Improved Steady Shot" then return end
-    if messageType == "SPELL_ACTIVE" and data == "Sic 'Em!" then return end
+    if messageType == "SPELL_ACTIVE" and (
+      data == "Improved Steady Shot"
+      or data == "Sic 'Em!"
+      or data == "Infusion of Light"
+      or data == "Daybreak"
+    ) then return end
   elseif event == "RUNE_POWER_UPDATE" then
     messageType = "RUNE"
   else
