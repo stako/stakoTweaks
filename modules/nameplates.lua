@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local module = addon:NewModule()
 
+local classIcons = false
+
 addon:RegisterEvent("ADDON_LOADED")
 addon:RegisterEvent("PLAYER_ENTERING_WORLD")
 
@@ -47,7 +49,7 @@ function module.UpdateNamePlateOptions(driverFrame)
     C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   else
     C_NamePlate.SetNamePlateFriendlySize(60 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
-    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, -44, 0)
+    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, classIcons and -44 or 0, 0)
   end
 end
 
@@ -67,11 +69,12 @@ function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
   local isPlayer = UnitIsPlayer(namePlateUnitToken)
   local _, class = UnitClass(namePlateUnitToken)
 
-  CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
-  CastingBarFrame_SetUnit(unitFrame.CastBar, not isFriend and namePlateUnitToken or nil, true, true)
+  -- CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
+  -- CastingBarFrame_SetUnit(unitFrame.CastBar, not isFriend and namePlateUnitToken or nil, true, true)
+  if not unitFrame.stakoClassIcon then return end
+
   unitFrame.stakoClassIcon:SetAtlas(GetClassAtlas(class or "WARRIOR"))
   unitFrame.stakoClassIcon:SetShown(isFriend and isPlayer)
-  unitFrame.stakoClassBorder:SetVertexColor(classColors[class or "WARRIOR"]:GetRGB())
   unitFrame.stakoClassBorder:SetShown(isFriend and isPlayer)
 end
 
@@ -111,6 +114,8 @@ function module:ApplyTweaks(unitFrame, namePlateUnitToken)
 
   unitFrame.LevelFrame.levelText:SetAlpha(0)
   unitFrame.LevelFrame.highLevelTexture:SetAlpha(0)
+
+  if not classIcons then return end
 
   local classIcon = unitFrame:CreateTexture(nil, "ARTWORK")
   classIcon:SetSize(32, 32)
