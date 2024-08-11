@@ -23,6 +23,8 @@ local cvarList = {
   nameplateShowFriendlyNPCs = 0,
   nameplateShowFriendlyPets = 0,
   nameplateShowFriendlyTotems = 0,
+  ResampleAlwaysSharpen = 1,
+  ResampleSharpness = 0.5,
 }
 
 addon:RegisterEvent("VARIABLES_LOADED")
