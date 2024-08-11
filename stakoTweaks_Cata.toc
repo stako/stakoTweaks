@@ -1,5 +1,6 @@
 ## Interface: 40400
 ## Title: stakoTweaks
+## OptionalDeps: BigWigs
 
 main.lua
 
@@ -12,3 +13,4 @@ modules/power_bar.lua
 modules/character_frame.lua
 modules/bag_buttons.lua
 modules/pet_frame.lua
+modules/bigwigs.lua
