@@ -10,8 +10,6 @@ local inForbiddenZone = false
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
-  hooksecurefunc(NamePlateDriverFrame, "OnNamePlateAdded", self.OnNamePlateAdded)
-  hooksecurefunc(NamePlateDriverFrame, "OnUnitFactionChanged", self.OnNamePlateAdded)
   hooksecurefunc(NamePlateDriverFrame, "ApplyFrameOptions", self.ApplyFrameOptions)
   hooksecurefunc(NamePlateDriverFrame, "UpdateNamePlateOptions", self.UpdateNamePlateOptions)
   hooksecurefunc("Nameplate_CastBar_AdjustPosition", self.Nameplate_CastBar_AdjustPosition)
@@ -21,10 +19,6 @@ function module:PLAYER_ENTERING_WORLD()
   local _, instanceType = IsInInstance()
   inForbiddenZone = (instanceType == "party" or instanceType == "raid")
   module.UpdateNamePlateOptions(NamePlateDriverFrame)
-end
-
-function module.OnNamePlateAdded(driverFrame, namePlateUnitToken)
-  module:UpdateNamePlate(nil, namePlateUnitToken)
 end
 
 function module.ApplyFrameOptions(driverFrame, namePlateFrameBase, namePlateUnitToken)
@@ -52,20 +46,6 @@ end
 
 function module.Nameplate_CastBar_AdjustPosition(castBar)
   if not castBar:IsForbidden() then castBar.Text:Show() end
-end
-
-function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
-  if not namePlateUnitToken:find("nameplate") then return end
-
-  namePlateFrameBase = namePlateFrameBase or C_NamePlate.GetNamePlateForUnit(namePlateUnitToken, false)
-  if not namePlateFrameBase then return end
-
-  local unitFrame = namePlateFrameBase.UnitFrame
-  local isFriend = UnitIsFriend("player", namePlateUnitToken) and not UnitIsPossessed(namePlateUnitToken)
-  local isTarget = UnitIsUnit("target", namePlateUnitToken)
-
-  -- CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
-  -- CastingBarFrame_SetUnit(unitFrame.CastBar, not isFriend and namePlateUnitToken or nil, true, true)
 end
 
 function module:ApplyTweaks(unitFrame, namePlateUnitToken)
@@ -143,8 +123,6 @@ end
 
 function module.UpdateHealthBorderOverride(frame)
   local unit = frame.displayedUnit
-
-  module:UpdateNamePlate(frame:GetParent(), unit)
 
   if UnitIsUnit(unit, "target") then
     module.UpdateBorderColor(frame, 1, 1, 1, 0.75)
