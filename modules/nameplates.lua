@@ -1,14 +1,11 @@
 local addonName, addon = ...
 local module = addon:NewModule()
 
-local classIcons = false
-
 addon:RegisterEvent("ADDON_LOADED")
 addon:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local UnitIsUnit, UnitIsFriend, UnitIsPlayer, UnitIsPossessed = UnitIsUnit, UnitIsFriend, UnitIsPlayer, UnitIsPossessed
 local inForbiddenZone = false
-local classColors = RAID_CLASS_COLORS
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
@@ -49,7 +46,7 @@ function module.UpdateNamePlateOptions(driverFrame)
     C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   else
     C_NamePlate.SetNamePlateFriendlySize(60 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
-    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, classIcons and -44 or 0, 0)
+    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   end
 end
 
@@ -66,16 +63,9 @@ function module:UpdateNamePlate(namePlateFrameBase, namePlateUnitToken)
   local unitFrame = namePlateFrameBase.UnitFrame
   local isFriend = UnitIsFriend("player", namePlateUnitToken) and not UnitIsPossessed(namePlateUnitToken)
   local isTarget = UnitIsUnit("target", namePlateUnitToken)
-  local isPlayer = UnitIsPlayer(namePlateUnitToken)
-  local _, class = UnitClass(namePlateUnitToken)
 
   -- CompactUnitFrame_SetHideHealth(unitFrame, isFriend and not isTarget, 1)
   -- CastingBarFrame_SetUnit(unitFrame.CastBar, not isFriend and namePlateUnitToken or nil, true, true)
-  if not unitFrame.stakoClassIcon then return end
-
-  unitFrame.stakoClassIcon:SetAtlas(GetClassAtlas(class or "WARRIOR"))
-  unitFrame.stakoClassIcon:SetShown(isFriend and isPlayer)
-  unitFrame.stakoClassBorder:SetShown(isFriend and isPlayer)
 end
 
 function module:ApplyTweaks(unitFrame, namePlateUnitToken)
@@ -114,25 +104,6 @@ function module:ApplyTweaks(unitFrame, namePlateUnitToken)
 
   unitFrame.LevelFrame.levelText:SetAlpha(0)
   unitFrame.LevelFrame.highLevelTexture:SetAlpha(0)
-
-  if not classIcons then return end
-
-  local classIcon = unitFrame:CreateTexture(nil, "ARTWORK")
-  classIcon:SetSize(32, 32)
-  classIcon:SetPoint("BOTTOM", name, "TOP", 0, 6)
-  unitFrame.stakoClassIcon = classIcon
-
-  local mask = unitFrame:CreateMaskTexture(nil, "OVERLAY")
-  mask:SetSize(34, 34)
-  mask:SetPoint("CENTER", classIcon)
-  mask:SetAtlas("CircleMaskScalable")
-  classIcon:AddMaskTexture(mask)
-
-  local classBorder = unitFrame:CreateTexture(nil, "OVERLAY")
-  classBorder:SetSize(46, 46)
-  classBorder:SetPoint("CENTER", classIcon)
-  classBorder:SetAtlas("Portrait-Frame-Nameplate")
-  unitFrame.stakoClassBorder = classBorder
 end
 
 function module.UpdateNameOverride(frame)
