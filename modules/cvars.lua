@@ -13,8 +13,8 @@ local cvarList = {
   clampTargetNameplateToScreen = 1,
   nameplateTargetRadialPosition = 1,
   nameplateShowAll = 1,
-  nameplateShowEnemyGuardians = 0,
-  nameplateShowEnemyMinions = 0,
+  nameplateShowEnemyGuardians = 1,
+  nameplateShowEnemyMinions = 1,
   nameplateShowEnemyMinus = 0,
   nameplateShowEnemyPets = 1,
   nameplateShowEnemyTotems = 1,
@@ -25,6 +25,7 @@ local cvarList = {
   nameplateShowFriendlyTotems = 0,
   ResampleAlwaysSharpen = 1,
   ResampleSharpness = 0.5,
+  weatherDensity = 0,
 }
 
 addon:RegisterEvent("VARIABLES_LOADED")
