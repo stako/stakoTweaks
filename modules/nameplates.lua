@@ -4,7 +4,7 @@ local module = addon:NewModule()
 addon:RegisterEvent("ADDON_LOADED")
 addon:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-local UnitIsUnit, UnitIsFriend, UnitIsPlayer, UnitIsPossessed = UnitIsUnit, UnitIsFriend, UnitIsPlayer, UnitIsPossessed
+local UnitIsUnit, UnitIsPlayer = UnitIsUnit, UnitIsPlayer
 local inForbiddenZone = false
 
 function module:ADDON_LOADED(name)
@@ -35,12 +35,12 @@ function module.UpdateNamePlateOptions(driverFrame)
   local zeroBasedScale = tonumber(GetCVar("NamePlateVerticalScale")) - 1.0
   local horizontalScale = tonumber(GetCVar("NamePlateHorizontalScale"))
 
+  C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
+
   if inForbiddenZone then
     C_NamePlate.SetNamePlateFriendlySize(driverFrame.baseNamePlateWidth * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
-    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   else
     C_NamePlate.SetNamePlateFriendlySize(60 * horizontalScale, driverFrame.baseNamePlateHeight * Lerp(1.0, 1.25, zeroBasedScale))
-    C_NamePlate.SetNamePlateFriendlyPreferredClickInsets(0, 0, 0, 0)
   end
 end
 
