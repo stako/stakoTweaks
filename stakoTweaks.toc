@@ -10,8 +10,7 @@ modules/nameplates.lua
 modules/nameplates.xml
 modules/totems.lua
 modules/power_bar.lua
-modules/character_frame.lua
-modules/bag_buttons.lua
 modules/pet_frame.lua
 modules/bigwigs.lua
 modules/raid_warning.lua
+modules/cata_fixes.lua

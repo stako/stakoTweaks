@@ -1,20 +1,80 @@
 local addonName, addon = ...
 local module = addon:NewModule()
 
--- Bug in Cataclysm Classic: "characterFrameCollapsed" CVar doesn't exist.
--- As a result, character stats sheet is always collapsed.
+-- Fixes various Cataclysm UI bugs:
+-- Invalid spec on inspection window
+-- Bag buttons don't fit action bar artwork
+-- Character stats panel is always collapsed
+-- Character stats panel is missing alternating backdrops
 
 addon:RegisterEvent("ADDON_LOADED")
 
 function module:ADDON_LOADED(name)
-  if name ~= addonName then return end
+  if name == "Blizzard_InspectUI" then
+    InspectPaperDollFrame_SetLevel = self.InspectPaperDollFrame_SetLevel
+  elseif name~= addonName then return end
 
+  self:FixBagButtons()
+  self:FixStatsPanel()
+end
+
+function module:InspectPaperDollFrame_SetLevel()
+  local unit = InspectFrame.unit
+  if not unit then return end
+
+  local activeTalentGroup = GetActiveTalentGroup(true, false)
+  local primaryTalentTree = GetPrimaryTalentTree(true, false, activeTalentGroup)
+  local _, specName
+  if primaryTalentTree then
+    _, specName = GetTalentTabInfo(primaryTalentTree, true, false, activeTalentGroup)
+  end
+
+  local classDisplayName, class = UnitClass(unit)
+  local classColor = RAID_CLASS_COLORS[class]
+  local classColorString = format("ff%.2x%.2x%.2x", classColor.r * 255, classColor.g * 255, classColor.b * 255)
+
+  if (specName and specName ~= "") then
+    InspectLevelText:SetFormattedText(PLAYER_LEVEL, UnitLevel(unit), classColorString, specName, classDisplayName);
+  else
+    InspectLevelText:SetFormattedText(PLAYER_LEVEL_NO_SPEC, UnitLevel(unit), classColorString, classDisplayName);
+  end
+end
+
+function module:FixBagButtons()
+  MainMenuBarBackpackButton:SetSize(30, 30)
+  MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", -4, 6)
+
+  local textures = {
+    MainMenuBarBackpackButtonNormalTexture,
+    CharacterBag0SlotNormalTexture,
+    CharacterBag1SlotNormalTexture,
+    CharacterBag2SlotNormalTexture,
+    CharacterBag3SlotNormalTexture,
+  }
+
+  for index, texture in ipairs(textures) do
+    texture:SetSize(52, 52)
+  end
+
+  local relativeFrame = MainMenuBarBackpackButton
+  local buttons = {
+    CharacterBag0Slot,
+    CharacterBag1Slot,
+    CharacterBag2Slot,
+    CharacterBag3Slot,
+  }
+
+  for index, button in ipairs(buttons) do
+    button:SetPoint("RIGHT", relativeFrame, "LEFT", -2, 0)
+    relativeFrame = button
+  end
+end
+
+function module:FixStatsPanel()
   PaperDollFrame:HookScript("OnShow", function() CharacterFrame:Expand() end)
   PetPaperDollFrame:HookScript("OnShow", function() CharacterFrame:Expand() end)
   PaperDollFrame_UpdateStatCategory = module.PaperDollFrame_UpdateStatCategory
 end
-
-local STRIPE_COLOR = {r=0.9, g=0.9, b=1}
 
 function module.PaperDollFrame_UpdateStatCategory(categoryFrame)
 	if (not categoryFrame.Category) then
@@ -77,7 +137,7 @@ function module.PaperDollFrame_UpdateStatCategory(categoryFrame)
 				statFrame.Bg:SetPoint("RIGHT", categoryFrame, "RIGHT", 0, 0)
 				statFrame.Bg:SetPoint("TOP")
 				statFrame.Bg:SetPoint("BOTTOM")
-				statFrame.Bg:SetColorTexture(STRIPE_COLOR.r, STRIPE_COLOR.g, STRIPE_COLOR.b)
+				statFrame.Bg:SetColorTexture(0.9, 0.9, 1)
 				statFrame.Bg:SetAlpha(0.1)
 			end
 		end
