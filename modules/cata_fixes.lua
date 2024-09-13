@@ -12,7 +12,7 @@ addon:RegisterEvent("ADDON_LOADED")
 function module:ADDON_LOADED(name)
   if name == "Blizzard_InspectUI" then
     InspectPaperDollFrame_SetLevel = self.InspectPaperDollFrame_SetLevel
-  elseif name~= addonName then return end
+  elseif name ~= addonName then return end
 
   self:FixBagButtons()
   self:FixStatsPanel()
