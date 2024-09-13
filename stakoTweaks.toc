@@ -14,3 +14,4 @@ modules/pet_frame.lua
 modules/bigwigs.lua
 modules/raid_warning.lua
 modules/cata_fixes.lua
+modules/combo_points.lua
