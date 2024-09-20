@@ -9,10 +9,12 @@ local BLOCKLISTED_ACTIVITY_SPELLS = {
   -- Misc
   [93079] = "Launch Quest",
   [836] = "LOGINEFFECT",
+  [6478] = "Opening",
 
   -- Hunter
   [75] = "Auto Shot",
   [37506] = "Scatter Shot",
+  [80325] = "Camouflage",
 }
 
 addon:RegisterEvent("ADDON_LOADED")
@@ -100,8 +102,9 @@ local timeElapsed = 0
 
 function module.OnUpdate(frame, elapsed)
   timeElapsed = timeElapsed + elapsed
-  if timeElapsed < 0.1 then return end
+  if timeElapsed < 0.2 then return end
 
+  timeElapsed = 0
   local sortedFrames = {}
 
   for frame in module.spellActivityFrames:EnumerateActive() do
