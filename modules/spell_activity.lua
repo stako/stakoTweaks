@@ -6,6 +6,9 @@ local SPELL_ACTIVITY_DURATION = 5
 local SPELL_ACTIVITY_MAX = 5
 
 local BLOCKLISTED_ACTIVITY_SPELLS = {
+  -- Misc
+  [93079] = "Launch Quest",
+
   -- Hunter
   [75] = "Auto Shot",
   [37506] = "Scatter Shot",
@@ -27,7 +30,6 @@ end
 
 function module:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
   if BLOCKLISTED_ACTIVITY_SPELLS[spellID] then return end
-
 
   local _, spellTextureNoOverride = GetSpellTexture(spellID)
   self:AddSpellActivityFrame(spellTextureNoOverride)
