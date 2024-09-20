@@ -1,0 +1,52 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\Blizzard_SharedXML\UI.xsd">
+  <Frame name="stakoSpellActivityFrameTemplate" enableMouse="false" hidden="true" virtual="true">
+    <Size x="28" y="28"/>
+    <Layers>
+      <Layer level="BACKGROUND" textureSubLevel="1">
+        <Texture parentKey="Icon">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/>
+            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+      <Layer level="BACKGROUND" textureSubLevel="2">
+        <Texture parentKey="Border" atlas="CommentatorSpellBorder">
+          <Size x="41" y="41" />
+          <Anchors>
+            <Anchor point="CENTER" relativeKey="$parent.Icon" relativePoint="CENTER"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Animations>
+      <AnimationGroup parentKey="AnimOut">
+        <Alpha parentKey="Alpha" fromAlpha="1" toAlpha="0" order="1"/>
+        <Scripts>
+          <OnFinished>
+            self:GetParent():SetAlpha(0)
+            self:GetParent().expired = true
+          </OnFinished>
+        </Scripts>
+      </AnimationGroup>
+      <AnimationGroup parentKey="AnimIn">
+        <Alpha parentKey="Alpha" fromAlpha="0" toAlpha="1" order="1"/>
+        <Translation parentKey="Translation" offsetX="0" offsetY="32" order="1"/>
+        <Scripts>
+          <OnPlay>
+            self:GetParent():Show()
+          </OnPlay>
+          <OnFinished>
+            self:GetParent():SetAlpha(1)
+            self:GetParent():ClearAllPoints()
+            self:GetParent():SetPoint("BOTTOMLEFT", PlayerFrame, "TOPLEFT", 60, 20+32)
+          </OnFinished>
+        </Scripts>
+      </AnimationGroup>
+      <AnimationGroup parentKey="AnimRight">
+        <Translation parentKey="Translation" offsetX="32" offsetY="0" order="1"/>
+      </AnimationGroup>
+    </Animations>
+  </Frame>
+</Ui>
