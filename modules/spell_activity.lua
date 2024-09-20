@@ -8,6 +8,7 @@ local SPELL_ACTIVITY_MAX = 5
 local BLOCKLISTED_ACTIVITY_SPELLS = {
   -- Misc
   [93079] = "Launch Quest",
+  [836] = "LOGINEFFECT",
 
   -- Hunter
   [75] = "Auto Shot",
