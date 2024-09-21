@@ -89,7 +89,7 @@ do
     apiVersion = 1,
     version = 1,
     barHeight = 20,
-    fontSizeNormal = 10,
+    fontSizeNormal = 11,
     fontSizeEmphasized = 11,
     GetSpacing = function(bar) return bar:GetHeight() + 8 end,
     ApplyStyle = styleBar,
