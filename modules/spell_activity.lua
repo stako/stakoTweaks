@@ -1,7 +1,7 @@
 local addonName, addon = ...
 local module = addon:NewModule()
 
-local SPELL_ACTIVITY_SPEED = 0.3
+local SPELL_ACTIVITY_SPEED = 0.4
 local SPELL_ACTIVITY_DURATION = 5
 local SPELL_ACTIVITY_MAX = 5
 
