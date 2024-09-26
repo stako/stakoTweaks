@@ -19,7 +19,7 @@ function module:ADDON_LOADED(name)
       -- local rightText = statusFrame.RightText
       -- rightText:SetText(value >= 80 and "<<<" or value >= 75 and "<" or "")
       -- rightText:Show()
-    elseif (powerType == Enum.PowerType.Energy or powerType == Enum.PowerType.Focus) and value < UnitPowerMax("player") then
+    elseif (powerType == Enum.PowerType.Energy or powerType == Enum.PowerType.Focus) and value < valueMax then
       textString:Show()
       textString:SetText(value)
     end
