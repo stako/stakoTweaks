@@ -12,7 +12,7 @@ modules/combat_text.lua
 # modules/nameplates.xml
 modules/totems.lua
 modules/power_bar.lua
-modules/pet_frame.lua
+# modules/pet_frame.lua
 modules/bigwigs.lua
 modules/raid_warning.lua
 modules/cata_fixes.lua
