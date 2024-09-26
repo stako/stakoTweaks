@@ -27,6 +27,6 @@ function module:ADDON_LOADED(name)
     timer:SetPoint("BOTTOM", timer:GetParent(), "TOP", 0, 0)
   end
 
-  TotemFrame:ClearAllPoints()
-  TotemFrame:SetPoint("BOTTOMLEFT", PlayerFrame, "TOPLEFT", 96, -38)
+  -- TotemFrame:ClearAllPoints()
+  -- TotemFrame:SetPoint("BOTTOMLEFT", PlayerFrame, "TOPLEFT", 96, -38)
 end
