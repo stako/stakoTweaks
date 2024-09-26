@@ -33,7 +33,7 @@
       </AnimationGroup>
       <AnimationGroup parentKey="AnimIn">
         <Alpha parentKey="Alpha" fromAlpha="0" toAlpha="1" order="1"/>
-        <Translation parentKey="Translation" offsetX="0" offsetY="32" order="1"/>
+        <Translation parentKey="Translation" offsetX="0" offsetY="-32" order="1"/>
         <Scripts>
           <OnPlay>
             self:GetParent():Show()
@@ -41,7 +41,7 @@
           <OnFinished>
             self:GetParent():SetAlpha(1)
             self:GetParent():ClearAllPoints()
-            self:GetParent():SetPoint("BOTTOMLEFT", PlayerFrame, "TOPLEFT", 60, 20+32)
+            self:GetParent():SetPoint("TOPLEFT", PlayerFrame, "BOTTOMLEFT", 55, 18-32)
           </OnFinished>
         </Scripts>
       </AnimationGroup>
