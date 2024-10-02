@@ -16,6 +16,8 @@ function module:ADDON_LOADED(name)
 
   self:FixBagButtons()
   self:FixStatsPanel()
+
+	PlayerFrameGroupIndicator:SetAlpha(0)
 end
 
 function module:InspectPaperDollFrame_SetLevel()
