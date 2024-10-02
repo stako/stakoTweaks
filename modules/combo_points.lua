@@ -8,7 +8,7 @@ function module:ADDON_LOADED(name)
   if addon.playerClass ~= "ROGUE" and addon.playerClass ~= "DRUID" then return end
 
   local comboText = TargetFrameTextureFrame:CreateFontString(nil, "OVERLAY", "stakoComboFont")
-  comboText:SetPoint("LEFT", TargetFrame, "RIGHT", -24, 8)
+  comboText:SetPoint("LEFT", PlayerFrame, "RIGHT", 2, 10)
   self.comboText = comboText
 
   hooksecurefunc("ComboFrame_Update", module.ComboFrame_Update)
