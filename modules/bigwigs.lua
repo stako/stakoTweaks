@@ -104,9 +104,8 @@ do
   local iconBorderPool = CreateTexturePool(UIParent, "OVERLAY")
 
   local function removeStyle(bar)
-    local width = bar:Get("bigwigs:restorewidth")
     local height = bar:Get("bigwigs:restoreheight")
-    if width and height then bar:SetSize(width, height) end
+    if height then bar:SetHeight(height) end
 
     bar:SetBackgroundColor(0.5, 0.5, 0.5, 0.3)
 
@@ -142,9 +141,9 @@ do
   local function styleBar(bar)
     local width = bar:GetWidth()
     local height = bar:GetHeight()
-    bar:Set("bigwigs:restorewidth", width)
+    local halfHeight = height/2
     bar:Set("bigwigs:restoreheight", height)
-    bar:SetSize(150, 10)
+    bar:SetHeight(halfHeight)
 
     local barBackdrop = bar.candyBarBackdrop
     barBackdrop:SetBackdrop(backdropInfo)
@@ -158,8 +157,8 @@ do
     barBorder:SetParent(bar.candyBarBar)
     barBorder:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
     barBorder:SetVertexColor(0.6, 0.6, 0.6)
-    barBorder:SetSize(196, 56)
-    barBorder:SetPoint("TOPLEFT", -23, 23)
+    barBorder:SetPoint("TOPLEFT", -width*0.1733, halfHeight*2.1)
+    barBorder:SetPoint("BOTTOMRIGHT", width*0.1733, -halfHeight*2.1)
     barBorder:Show()
     bar:Set("bigwigs:stakoui:barborder", barBorder)
 
@@ -170,11 +169,11 @@ do
       icon:SetTexture(tex)
       icon:Show()
       if bar.iconPosition == "RIGHT" then
-        icon:SetPoint("BOTTOMLEFT", bar, "BOTTOMRIGHT", 6, -3)
+        icon:SetPoint("BOTTOMLEFT", bar, "BOTTOMRIGHT", width*0.06, -halfHeight*0.1)
       else
-        icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMLEFT", -6, -3)
+        icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMLEFT", -width*0.06, -halfHeight*0.1)
       end
-      icon:SetSize(28, 28)
+      icon:SetSize(height*1.3, height*1.3)
       bar:Set("bigwigs:restoreicon", tex)
 
       local iconBackdrop = bar.candyBarIconFrameBackdrop
@@ -186,7 +185,7 @@ do
       local iconBorder = iconBorderPool:Acquire()
       iconBorder:SetParent(bar.candyBarBar)
       iconBorder:SetAtlas("CommentatorSpellBorder")
-      iconBorder:SetSize(42, 42)
+      iconBorder:SetSize(height*2.1, height*2.1)
       iconBorder:SetPoint("CENTER", icon, "CENTER")
       iconBorder:Show()
       bar:Set("bigwigs:stakoui:iconborder", iconBorder)
@@ -206,7 +205,7 @@ do
     version = 1,
     fontSizeNormal = 11,
     fontSizeEmphasized = 11,
-    GetSpacing = function(bar) return bar:GetHeight() + 15 end,
+    GetSpacing = function(bar) return bar:GetHeight() * 2.5 end,
     ApplyStyle = styleBar,
     BarStopped = removeStyle,
     GetStyleName = function() return "StakoUI 2" end,
