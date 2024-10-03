@@ -6,8 +6,8 @@
       <Layer level="BACKGROUND" textureSubLevel="1">
         <Texture parentKey="Icon">
           <Anchors>
-            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0"/>
-            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+            <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="1" y="-1"/>
+            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-1" y="1"/>
           </Anchors>
           <TexCoords left="0.07" right="0.93" top="0.07" bottom="0.93"/>
         </Texture>
