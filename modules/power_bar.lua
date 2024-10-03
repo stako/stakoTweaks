@@ -29,7 +29,7 @@ function module:ADDON_LOADED(name)
 end
 
 function module:BuildEnergyTicker()
-  if GetExpansionLevel() > LE_EXPANSION_BURNING_CRUSADE then return end
+  if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and WOW_PROJECT_ID ~= WOW_PROJECT_BURNING_CRUSADE_CLASSIC then return end
 
   local tickbar = CreateFrame("Statusbar", nil, PlayerFrameManaBar)
   tickbar:SetAllPoints()
