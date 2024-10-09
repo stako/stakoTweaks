@@ -15,10 +15,6 @@ function module:ADDON_LOADED(name)
     if powerType == Enum.PowerType.Rage and value > 0 then
       textString:Show()
       textString:SetText(value)
-
-      -- local rightText = statusFrame.RightText
-      -- rightText:SetText(value >= 80 and "<<<" or value >= 75 and "<" or "")
-      -- rightText:Show()
     elseif (powerType == Enum.PowerType.Energy or powerType == Enum.PowerType.Focus) and value < valueMax then
       textString:Show()
       textString:SetText(value)
