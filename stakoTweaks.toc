@@ -8,8 +8,6 @@ main.lua
 
 modules/cvars.lua
 modules/combat_text.lua
-# modules/nameplates.lua
-# modules/nameplates.xml
 modules/totems.lua
 modules/power_bar.lua
 modules/target_health.lua
