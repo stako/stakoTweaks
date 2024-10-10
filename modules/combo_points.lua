@@ -5,7 +5,6 @@ local module = ns.Module:new()
 
 local comboText = TargetFrameTextureFrame:CreateFontString(nil, "OVERLAY", "stakoComboFont")
 comboText:SetPoint("LEFT", PlayerFrame, "RIGHT", 2, 10)
-module.comboText = comboText
 
 module:RegisterEvent("ADDON_LOADED")
 
@@ -17,5 +16,5 @@ end
 
 function module.ComboFrame_Update(comboFrame)
   local comboPoints = GetComboPoints(comboFrame.unit, "target")
-  module.comboText:SetText(comboPoints > 0 and comboPoints or "")
+  comboText:SetText(comboPoints > 0 and comboPoints or "")
 end
