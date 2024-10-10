@@ -1,7 +1,7 @@
-local addonName, addon = ...
-local module = addon:NewModule()
+local addonName, ns = ...
+local module = ns.Module:new()
 
-addon:RegisterEvent("ADDON_LOADED")
+module:RegisterEvent("ADDON_LOADED")
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end

@@ -1,5 +1,5 @@
-local addonName, addon = ...
-local module = addon:NewModule()
+local addonName, ns = ...
+local module = ns.Module:new()
 
 local cvarList = {
   ColorNameplateNameBySelection = 1,
@@ -28,7 +28,7 @@ local cvarList = {
   weatherDensity = 0,
 }
 
-addon:RegisterEvent("VARIABLES_LOADED")
+module:RegisterEvent("VARIABLES_LOADED")
 
 function module:VARIABLES_LOADED()
   for cvar, value in pairs(cvarList) do

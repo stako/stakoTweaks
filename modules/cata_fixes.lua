@@ -1,5 +1,5 @@
-local addonName, addon = ...
-local module = addon:NewModule()
+local addonName, ns = ...
+local module = ns.Module:new()
 
 -- Fixes various Cataclysm UI bugs:
 -- Invalid spec on inspection window
@@ -7,7 +7,7 @@ local module = addon:NewModule()
 -- Character stats panel is always collapsed
 -- Character stats panel is missing alternating backdrops
 
-addon:RegisterEvent("ADDON_LOADED")
+module:RegisterEvent("ADDON_LOADED")
 
 function module:ADDON_LOADED(name)
   if name == "Blizzard_InspectUI" then

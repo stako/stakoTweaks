@@ -1,24 +1,26 @@
-local addonName, addon = ...
-addon.modules = {}
-addon.playerClass = select(2, UnitClass("player"))
+local addonName, ns = ...
+ns.playerClass = select(2, UnitClass("player"))
 
-local eventManager = CreateFrame("Frame")
-eventManager:SetScript("OnEvent", function(self, event, ...)
-  for index, module in ipairs(addon.modules) do
-    if module[event] then module[event](module, ...) end
-  end
-end)
+-- Module class
+ns.Module = {
+  new = function(self, obj)
+    obj = obj or {}
+    setmetatable(obj, self)
+    self.__index = self
 
-function addon:RegisterEvent(event)
-  return eventManager:RegisterEvent(event)
-end
+    obj:BuildEventManager()
 
-function addon:RegisterUnitEvent(event, ...)
-  return eventManager:RegisterUnitEvent(event, ...)
-end
+    return obj
+  end,
 
-function addon:NewModule()
-  local module = {}
-  table.insert(self.modules, module)
-  return module
-end
+  BuildEventManager = function(self)
+    local eventManager = CreateFrame("Frame")
+    eventManager:SetScript("OnEvent", function(frame, event, ...) self[event](self, ...) end)
+    self.EventManager = eventManager
+  end,
+
+  RegisterEvent = function(self, event) self.EventManager:RegisterEvent(event) end,
+  RegisterUnitEvent = function(self, event, ...) self.EventManager:RegisterUnitEvent(event, ...) end,
+  UnregisterEvent = function(self, event, ...) self.EventManager:UnregisterEvent(event) end,
+  UnregisterAllEvents = function(self, event, ...) self.EventManager:UnregisterAllEvents() end,
+}

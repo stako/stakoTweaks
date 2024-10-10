@@ -1,12 +1,13 @@
-local addonName, addon = ...
-if addon.playerClass ~= "ROGUE" and addon.playerClass ~= "DRUID" then return end
-local module = addon:NewModule()
+local addonName, ns = ...
+if ns.playerClass ~= "ROGUE" and ns.playerClass ~= "DRUID" then return end
+
+local module = ns.Module:new()
 
 local comboText = TargetFrameTextureFrame:CreateFontString(nil, "OVERLAY", "stakoComboFont")
 comboText:SetPoint("LEFT", PlayerFrame, "RIGHT", 2, 10)
 module.comboText = comboText
 
-addon:RegisterEvent("ADDON_LOADED")
+module:RegisterEvent("ADDON_LOADED")
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end

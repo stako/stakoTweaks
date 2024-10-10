@@ -1,6 +1,7 @@
-local addonName, addon = ...
-if addon.playerClass ~= "HUNTER" then return end
-local module = addon:NewModule()
+local addonName, ns = ...
+if ns.playerClass ~= "HUNTER" then return end
+
+local module = ns.Module:new()
 
 local autoShotDisabled = true
 local inCombat = false
@@ -13,12 +14,12 @@ text:SetText("|T132369:14|t Auto Shot Disabled |T132369:14|t")
 text:Hide()
 module.text = text
 
-addon:RegisterEvent("PLAYER_ENTERING_WORLD")
-addon:RegisterEvent("PLAYER_TARGET_CHANGED")
-addon:RegisterEvent("START_AUTOREPEAT_SPELL")
-addon:RegisterEvent("PLAYER_REGEN_ENABLED")
-addon:RegisterEvent("PLAYER_REGEN_DISABLED")
-addon:RegisterEvent("STOP_AUTOREPEAT_SPELL")
+module:RegisterEvent("PLAYER_ENTERING_WORLD")
+module:RegisterEvent("PLAYER_TARGET_CHANGED")
+module:RegisterEvent("START_AUTOREPEAT_SPELL")
+module:RegisterEvent("PLAYER_REGEN_ENABLED")
+module:RegisterEvent("PLAYER_REGEN_DISABLED")
+module:RegisterEvent("STOP_AUTOREPEAT_SPELL")
 
 function module:PLAYER_ENTERING_WORLD()
   local _, instanceType = IsInInstance()

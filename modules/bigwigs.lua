@@ -1,12 +1,12 @@
 if not BigWigsAPI then return end
 
-local addonName, addon = ...
-local module = addon:NewModule()
+local addonName, ns = ...
+local module = ns.Module:new()
 
 local pixel
 local backdropInfo = { bgFile = "Interface\\ChatFrame\\ChatFrameBackground" }
 
-addon:RegisterEvent("UI_SCALE_CHANGED")
+module:RegisterEvent("UI_SCALE_CHANGED")
 
 function module:UI_SCALE_CHANGED()
   pixel = PixelUtil.ConvertPixelsToUI(1, UIParent:GetScale())

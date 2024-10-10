@@ -1,8 +1,8 @@
-local addonName, addon = ...
-local module = addon:NewModule()
+local addonName, ns = ...
+local module = ns.Module:new()
 
-addon:RegisterEvent("ADDON_LOADED")
-addon:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+module:RegisterEvent("ADDON_LOADED")
+module:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 
 local previousHealth = 0
 local executeThreshold
@@ -83,16 +83,16 @@ function module:UpdateExecuteThreshold()
   executeThreshold = nil
   executeMessage = nil
 
-  if addon.playerClass == "ROGUE" and GetPrimaryTalentTree() == 1 then
+  if ns.playerClass == "ROGUE" and GetPrimaryTalentTree() == 1 then
     executeThreshold = 0.35
     executeMessage = "Backstab"
-    addon:RegisterUnitEvent("UNIT_HEALTH", "target")
-    addon:RegisterEvent("PLAYER_TARGET_CHANGED")
-  elseif addon.playerClass == "PRIEST" and GetPrimaryTalentTree() == 3 then
+    module:RegisterUnitEvent("UNIT_HEALTH", "target")
+    module:RegisterEvent("PLAYER_TARGET_CHANGED")
+  elseif ns.playerClass == "PRIEST" and GetPrimaryTalentTree() == 3 then
     executeThreshold = 0.25
     executeMessage = "Death"
-    addon:RegisterUnitEvent("UNIT_HEALTH", "target")
-    addon:RegisterEvent("PLAYER_TARGET_CHANGED")
+    module:RegisterUnitEvent("UNIT_HEALTH", "target")
+    module:RegisterEvent("PLAYER_TARGET_CHANGED")
   end
 end
 

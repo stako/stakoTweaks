@@ -1,5 +1,5 @@
-local addonName, addon = ...
-local module = addon:NewModule()
+local addonName, ns = ...
+local module = ns.Module:new()
 
 local SPELL_ACTIVITY_SPEED = 0.4
 local SPELL_ACTIVITY_DURATION = 5
@@ -17,7 +17,7 @@ local BLOCKLISTED_ACTIVITY_SPELLS = {
   [80325] = "Camouflage",
 }
 
-addon:RegisterEvent("ADDON_LOADED")
+module:RegisterEvent("ADDON_LOADED")
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
@@ -25,7 +25,7 @@ function module:ADDON_LOADED(name)
   self.spellActivityFrames = CreateFramePool("Frame", UIParent, "stakoSpellActivityFrameTemplate", self.ResetSpellActivityFrame)
   self.spellActivityFrames.last = nil
 
-  addon:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
+  module:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player")
 
   local animManager = CreateFrame("Frame")
   animManager:SetScript("OnUpdate", self.OnUpdate)
