@@ -58,7 +58,6 @@ function module:SetUpEnergyTicker()
   self.EnergyTicker = self.EnergyTicker or self:BuildTicker()
 
   local ticker = self.HATTicker
-  local spark = ticker.spark
   local width = ticker:GetWidth()
   local prevEnergy = 0
   local timeSinceTick = 0
@@ -99,7 +98,7 @@ function module:SetUpEnergyTicker()
   ticker:SetScript("OnUpdate", function(self, elapsed)
     timeSinceTick = timeSinceTick + elapsed
     if timeSinceTick > 2 then self:Hide() end
-    spark:SetPoint("CENTER", self, "LEFT", timeSinceTick / 2 * width, 0)
+    self.spark:SetPoint("CENTER", self, "LEFT", timeSinceTick / 2 * width, 0)
   end)
 end
 
