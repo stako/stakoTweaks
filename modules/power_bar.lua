@@ -47,7 +47,6 @@ function module:BuildTicker()
   spark:SetPoint("CENTER")
   spark:SetBlendMode("ADD")
   spark:SetAlpha(0.75)
-  spark:Hide()
   ticker.spark = spark
 
   return ticker
