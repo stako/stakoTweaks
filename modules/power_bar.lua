@@ -54,6 +54,7 @@ end
 
 function module:SetUpEnergyTicker()
   if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and WOW_PROJECT_ID ~= WOW_PROJECT_BURNING_CRUSADE_CLASSIC then return end
+  if ns.playerClass ~= "ROGUE" and ns.playerClass ~= "DRUID" then return end
 
   self.EnergyTicker = self.EnergyTicker or self:BuildTicker()
 
@@ -67,8 +68,8 @@ function module:SetUpEnergyTicker()
   local function isTick(d)
     if  (d >= 19 and d <= 21) or  -- regular energy gain (sometimes 21)
         (d >= 1 and d <= 21 and isFull) or -- partial energy gain to full
-        (d >= 39 and d <= 41 and playerClass == "ROGUE") or -- AR energy gain (sometimes 41)
-        (d >= 1 and d <= 41 and isFull and playerClass == "ROGUE") -- AR partial energy gain to full
+        (d >= 39 and d <= 41 and ns.playerClass == "ROGUE") or -- AR energy gain (sometimes 41)
+        (d >= 1 and d <= 41 and isFull and ns.playerClass == "ROGUE") -- AR partial energy gain to full
     then
       return true
     else
