@@ -22,6 +22,7 @@ function module:ADDON_LOADED(name)
   end)
 
   self:BuildEnergyTicker()
+  self:BuildHATTicker()
 end
 
 function module:BuildEnergyTicker()
@@ -78,4 +79,44 @@ function module:BuildEnergyTicker()
     if timeSinceTick > 2 then self:Hide() end
     spark:SetPoint("CENTER", tickbar, "LEFT", timeSinceTick / 2 * self:GetWidth(), 0)
   end)
+end
+
+function module:BuildHATTicker()
+  if ns.playerClass ~= "ROGUE" then return end
+
+  local tickbar = CreateFrame("Statusbar", nil, PlayerFrameManaBar)
+  tickbar:SetAllPoints()
+
+  local spark = tickbar:CreateTexture(nil, "OVERLAY")
+  spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+  spark:SetSize(32, 32)
+  spark:SetPoint("CENTER")
+  spark:SetBlendMode("ADD")
+  spark:SetAlpha(0.75)
+  spark:Hide()
+
+  local width = tickbar:GetWidth()
+  local startTime = 0
+  local GetTime = GetTime
+
+  local function updateTicker(self, elapsed)
+    local timeSinceProc = GetTime() - startTime
+    if timeSinceProc >= 2 then
+      self:SetScript("OnUpdate", nil)
+      spark:Hide()
+    else
+      spark:Show()
+      spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / 2 * width, 0)
+    end
+  end
+
+  tickbar:SetScript("OnEvent", function(self)
+    local start = GetSpellCooldown(51699)
+    if start > 0 then
+      startTime = start
+      self:SetScript("OnUpdate", updateTicker)
+    end
+  end)
+
+  tickbar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 end
