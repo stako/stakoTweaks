@@ -21,8 +21,8 @@ function module:ADDON_LOADED(name)
     end
   end)
 
-  self:BuildEnergyTicker()
-  self:BuildHATTicker()
+  self:SetUpEnergyTicker()
+  self:SetUpHATTicker()
 end
 
 function module:BuildTicker()
@@ -41,19 +41,14 @@ function module:BuildTicker()
   return ticker
 end
 
-function module:BuildEnergyTicker()
+function module:SetUpEnergyTicker()
   if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and WOW_PROJECT_ID ~= WOW_PROJECT_BURNING_CRUSADE_CLASSIC then return end
 
-  local tickbar = CreateFrame("Statusbar", nil, PlayerFrameManaBar)
-  tickbar:SetAllPoints()
+  self.EnergyTicker = self.EnergyTicker or self:BuildTicker()
 
-  local spark = tickbar:CreateTexture(nil, "OVERLAY")
-  spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
-  spark:SetSize(32, 32)
-  spark:SetPoint("CENTER")
-  spark:SetBlendMode("ADD")
-  spark:SetAlpha(0.6)
-
+  local ticker = self.HATTicker
+  local spark = ticker.spark
+  local width = ticker:GetWidth()
   local prevEnergy = 0
   local timeSinceTick = 0
   local isFull = true
@@ -71,7 +66,7 @@ function module:BuildEnergyTicker()
     end
   end
 
-  tickbar:SetScript("OnEvent", function(self, event, ...)
+  ticker:SetScript("OnEvent", function(self, event, ...)
     if event == "UNIT_POWER_UPDATE" then
       local curEnergy = UnitPower("player")
       isFull = (curEnergy == UnitPowerMax("player"))
@@ -86,32 +81,25 @@ function module:BuildEnergyTicker()
       self:SetShown(UnitPowerType("player") == energy and timeSinceTick < 2)
     end
   end)
-  tickbar:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
-  tickbar:RegisterUnitEvent("UNIT_DISPLAYPOWER", "player")
-  tickbar:RegisterEvent("PLAYER_ENTERING_WORLD")
+  ticker:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
+  ticker:RegisterUnitEvent("UNIT_DISPLAYPOWER", "player")
+  ticker:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-  tickbar:SetScript("OnUpdate", function(self, elapsed)
+  ticker:SetScript("OnUpdate", function(self, elapsed)
     timeSinceTick = timeSinceTick + elapsed
     if timeSinceTick > 2 then self:Hide() end
-    spark:SetPoint("CENTER", tickbar, "LEFT", timeSinceTick / 2 * self:GetWidth(), 0)
+    spark:SetPoint("CENTER", self, "LEFT", timeSinceTick / 2 * width, 0)
   end)
 end
 
-function module:BuildHATTicker()
+function module:SetUpHATTicker()
   if ns.playerClass ~= "ROGUE" then return end
 
-  local tickbar = CreateFrame("Statusbar", nil, PlayerFrameManaBar)
-  tickbar:SetAllPoints()
+  self.HATTicker = self.HATTicker or self:BuildTicker()
 
-  local spark = tickbar:CreateTexture(nil, "OVERLAY")
-  spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
-  spark:SetSize(32, 32)
-  spark:SetPoint("CENTER")
-  spark:SetBlendMode("ADD")
-  spark:SetAlpha(0.75)
-  spark:Hide()
-
-  local width = tickbar:GetWidth()
+  local ticker = self.HATTicker
+  local spark = ticker.spark
+  local width = ticker:GetWidth()
   local startTime = 0
   local GetTime = GetTime
 
@@ -126,7 +114,7 @@ function module:BuildHATTicker()
     end
   end
 
-  tickbar:SetScript("OnEvent", function(self)
+  ticker:SetScript("OnEvent", function(self)
     local start = GetSpellCooldown(51699)
     if start > 0 then
       startTime = start
@@ -134,5 +122,5 @@ function module:BuildHATTicker()
     end
   end)
 
-  tickbar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+  ticker:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 end
