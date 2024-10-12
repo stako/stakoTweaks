@@ -38,7 +38,7 @@ function module:PLAYER_TALENT_UPDATE()
 end
 
 function module:BuildTicker()
-  local ticker = CreateFrame("Statusbar", nil, PlayerFrameManaBar)
+  local ticker = CreateFrame("Frame", nil, PlayerFrameManaBar)
   ticker:SetAllPoints()
 
   local spark = ticker:CreateTexture(nil, "OVERLAY")
