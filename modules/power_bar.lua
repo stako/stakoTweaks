@@ -109,27 +109,22 @@ function module:SetUpHATTicker()
   self.HATTicker = self.HATTicker or self:BuildTicker()
 
   local ticker = self.HATTicker
-  local spark = ticker.spark
   local width = ticker:GetWidth()
   local startTime = 0
   local GetTime = GetTime
+  ticker:Hide()
 
-  local function updateTicker(self, elapsed)
+  ticker:SetScript("OnUpdate", function(self, elapsed)
     local timeSinceProc = GetTime() - startTime
-    if timeSinceProc >= self.cooldown then
-      self:SetScript("OnUpdate", nil)
-      spark:Hide()
-    else
-      spark:Show()
-      spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / self.cooldown * width, 0)
-    end
-  end
+    if timeSinceProc > self.cooldown then self:Hide() end
+    self.spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / self.cooldown * width, 0)
+  end)
 
   ticker:SetScript("OnEvent", function(self)
     local start = GetSpellCooldown(51699)
     if start > 0 then
       startTime = start
-      self:SetScript("OnUpdate", updateTicker)
+      ticker:Show()
     end
   end)
 
