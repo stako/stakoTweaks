@@ -25,6 +25,22 @@ function module:ADDON_LOADED(name)
   self:BuildHATTicker()
 end
 
+function module:BuildTicker()
+  local ticker = CreateFrame("Statusbar", nil, PlayerFrameManaBar)
+  ticker:SetAllPoints()
+
+  local spark = ticker:CreateTexture(nil, "OVERLAY")
+  spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+  spark:SetSize(32, 32)
+  spark:SetPoint("CENTER")
+  spark:SetBlendMode("ADD")
+  spark:SetAlpha(0.75)
+  spark:Hide()
+  ticker.spark = spark
+
+  return ticker
+end
+
 function module:BuildEnergyTicker()
   if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and WOW_PROJECT_ID ~= WOW_PROJECT_BURNING_CRUSADE_CLASSIC then return end
 
