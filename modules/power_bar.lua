@@ -2,6 +2,7 @@ local addonName, ns = ...
 local module = ns.Module:new()
 
 module:RegisterEvent("ADDON_LOADED")
+module:RegisterEvent("PLAYER_TALENT_UPDATE")
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
@@ -23,6 +24,17 @@ function module:ADDON_LOADED(name)
 
   self:SetUpEnergyTicker()
   self:SetUpHATTicker()
+end
+
+function module:PLAYER_TALENT_UPDATE()
+  local _, _, _, _, rank = GetTalentInfo(3, 12)
+
+  if rank == 0 then
+    self.HATTicker:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+  else
+    self.HATTicker:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+    self.HATTicker.cooldown = 5 - rank
+  end
 end
 
 function module:BuildTicker()
@@ -105,12 +117,12 @@ function module:SetUpHATTicker()
 
   local function updateTicker(self, elapsed)
     local timeSinceProc = GetTime() - startTime
-    if timeSinceProc >= 2 then
+    if timeSinceProc >= self.cooldown then
       self:SetScript("OnUpdate", nil)
       spark:Hide()
     else
       spark:Show()
-      spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / 2 * width, 0)
+      spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / self.cooldown * width, 0)
     end
   end
 
@@ -122,5 +134,5 @@ function module:SetUpHATTicker()
     end
   end)
 
-  ticker:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+  self:PLAYER_TALENT_UPDATE()
 end
