@@ -2,7 +2,10 @@ local addonName, ns = ...
 local module = ns.Module:new()
 
 module:RegisterEvent("ADDON_LOADED")
-if ns.playerClass == "ROGUE" then module:RegisterEvent("PLAYER_TALENT_UPDATE") end
+if ns.playerClass == "ROGUE" then
+  module:RegisterEvent("PLAYER_TALENT_UPDATE")
+  module:RegisterEvent("PLAYER_ENTERING_WORLD")
+end
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
@@ -31,10 +34,16 @@ function module:PLAYER_TALENT_UPDATE()
 
   if rank == 0 then
     self.HATTicker:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+    print('unregistered')
   else
+    print('registered')
     self.HATTicker:RegisterEvent("SPELL_UPDATE_COOLDOWN")
     self.HATTicker.cooldown = 5 - rank
   end
+end
+
+function module:PLAYER_ENTERING_WORLD()
+  self:PLAYER_TALENT_UPDATE()
 end
 
 function module:BuildTicker()
@@ -127,6 +136,4 @@ function module:SetUpHATTicker()
       ticker:Show()
     end
   end)
-
-  self:PLAYER_TALENT_UPDATE()
 end
