@@ -34,9 +34,7 @@ function module:PLAYER_TALENT_UPDATE()
 
   if rank == 0 then
     self.HATTicker:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
-    print('unregistered')
   else
-    print('registered')
     self.HATTicker:RegisterEvent("SPELL_UPDATE_COOLDOWN")
     self.HATTicker.cooldown = 5 - rank
   end
