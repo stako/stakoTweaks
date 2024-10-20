@@ -15,6 +15,10 @@ local BLOCKLISTED_ACTIVITY_SPELLS = {
   [75] = "Auto Shot",
   [37506] = "Scatter Shot",
   [80325] = "Camouflage",
+
+  -- Rogue
+  [5374] = "Mutilate",
+  [27576] = "Mutilate Off-Hand"
 }
 
 module:RegisterEvent("ADDON_LOADED")
