@@ -30,6 +30,8 @@ function module:ADDON_LOADED(name)
 end
 
 function module:PLAYER_TALENT_UPDATE()
+  if not self.HATTicker then return end
+
   local _, _, _, _, rank = GetTalentInfo(3, 12)
 
   if rank == 0 then
