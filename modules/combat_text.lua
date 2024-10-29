@@ -11,8 +11,6 @@ local executeMessage
 function module:ADDON_LOADED(name)
   if name ~= "Blizzard_CombatText" then return end
 
-  CombatText_UpdateDisplayedMessages = module.CombatText_UpdateDisplayedMessages
-
   COMBAT_TEXT_TYPE_INFO["DAMAGE_CRIT"].show = nil
   COMBAT_TEXT_TYPE_INFO["DAMAGE"].show = nil
   COMBAT_TEXT_TYPE_INFO["SPELL_DAMAGE"].show = nil
@@ -44,6 +42,9 @@ function module:ADDON_LOADED(name)
   COMBAT_TEXT_HEIGHT = 17
   COMBAT_TEXT_CRIT_MAXHEIGHT = 40
   COMBAT_TEXT_CRIT_MINHEIGHT = 22
+
+  CombatText_UpdateDisplayedMessages = module.CombatText_UpdateDisplayedMessages
+  CombatText_UpdateDisplayedMessages()
 
   for i=1, NUM_COMBAT_TEXT_LINES do
     font = _G["CombatText"..i]
