@@ -92,6 +92,7 @@ function module:SetUpEnergyTicker()
 end
 
 function module:SetUpHATTicker()
+  if WOW_PROJECT_ID ~= WOW_PROJECT_CATACLYSM_CLASSIC then return end
   if ns.playerClass ~= "ROGUE" then return end
 
   local ticker = self:BuildTicker()
