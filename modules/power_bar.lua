@@ -67,7 +67,7 @@ function module:SetUpEnergyTicker()
 
   self.EnergyTicker = self.EnergyTicker or self:BuildTicker()
 
-  local ticker = self.HATTicker
+  local ticker = self.EnergyTicker
   local width = ticker:GetWidth()
   local prevEnergy = 0
   local timeSinceTick = 0
