@@ -6,23 +6,24 @@ module:RegisterEvent("ADDON_LOADED")
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
-  hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", function(statusFrame, textString, value, valueMin, valueMax)
-    if statusFrame ~= PlayerFrameManaBar then return end
-    if textString:IsShown() and textString:GetText() then return end
-
-    local powerType = UnitPowerType("player")
-
-    if powerType == Enum.PowerType.Rage and value > 0 then
-      textString:Show()
-      textString:SetText(value)
-    elseif (powerType == Enum.PowerType.Energy or powerType == Enum.PowerType.Focus) and value < valueMax then
-      textString:Show()
-      textString:SetText(value)
-    end
-  end)
-
+  hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", self.UpdatePowerBarText)
   self:SetUpEnergyTicker()
   self:SetUpHATTicker()
+end
+
+function module.UpdatePowerBarText(statusFrame, textString, value, valueMin, valueMax)
+  if statusFrame ~= PlayerFrameManaBar then return end
+  if textString:IsShown() and textString:GetText() then return end
+
+  local powerType = UnitPowerType("player")
+
+  if powerType == Enum.PowerType.Rage and value > 0 then
+    textString:Show()
+    textString:SetText(value)
+  elseif (powerType == Enum.PowerType.Energy or powerType == Enum.PowerType.Focus) and value < valueMax then
+    textString:Show()
+    textString:SetText(value)
+  end
 end
 
 function module:BuildTicker()
