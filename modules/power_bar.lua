@@ -45,9 +45,7 @@ function module:SetUpEnergyTicker()
   if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC and WOW_PROJECT_ID ~= WOW_PROJECT_BURNING_CRUSADE_CLASSIC then return end
   if ns.playerClass ~= "ROGUE" and ns.playerClass ~= "DRUID" then return end
 
-  self.EnergyTicker = self.EnergyTicker or self:BuildTicker()
-
-  local ticker = self.EnergyTicker
+  local ticker = self:BuildTicker()
   local width = ticker:GetWidth()
   local prevEnergy = 0
   local timeSinceTick = 0
@@ -66,6 +64,16 @@ function module:SetUpEnergyTicker()
     end
   end
 
+  ticker:SetScript("OnUpdate", function(self, elapsed)
+    timeSinceTick = timeSinceTick + elapsed
+    if timeSinceTick > 2 then self:Hide() return end
+    self.spark:SetPoint("CENTER", self, "LEFT", timeSinceTick / 2 * width, 0)
+  end)
+
+  ticker:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
+  ticker:RegisterUnitEvent("UNIT_DISPLAYPOWER", "player")
+  ticker:RegisterEvent("PLAYER_ENTERING_WORLD")
+
   ticker:SetScript("OnEvent", function(self, event, ...)
     if event == "UNIT_POWER_UPDATE" then
       local curEnergy = UnitPower("player")
@@ -77,18 +85,9 @@ function module:SetUpEnergyTicker()
       end
 
       prevEnergy = curEnergy
-    elseif event == "UNIT_DISPLAYPOWER" or event == "PLAYER_ENTERING_WORLD" then
+    else
       self:SetShown(UnitPowerType("player") == energy and timeSinceTick < 2)
     end
-  end)
-  ticker:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
-  ticker:RegisterUnitEvent("UNIT_DISPLAYPOWER", "player")
-  ticker:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-  ticker:SetScript("OnUpdate", function(self, elapsed)
-    timeSinceTick = timeSinceTick + elapsed
-    if timeSinceTick > 2 then self:Hide() end
-    self.spark:SetPoint("CENTER", self, "LEFT", timeSinceTick / 2 * width, 0)
   end)
 end
 
