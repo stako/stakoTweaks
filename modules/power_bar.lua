@@ -2,10 +2,6 @@ local addonName, ns = ...
 local module = ns.Module:new()
 
 module:RegisterEvent("ADDON_LOADED")
-if ns.playerClass == "ROGUE" then
-  module:RegisterEvent("PLAYER_TALENT_UPDATE")
-  module:RegisterEvent("PLAYER_ENTERING_WORLD")
-end
 
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
@@ -29,26 +25,10 @@ function module:ADDON_LOADED(name)
   self:SetUpHATTicker()
 end
 
-function module:PLAYER_TALENT_UPDATE()
-  if not self.HATTicker then return end
-
-  local _, _, _, _, rank = GetTalentInfo(3, 12)
-
-  if rank == 0 then
-    self.HATTicker:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
-  else
-    self.HATTicker:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-    self.HATTicker.cooldown = 5 - rank
-  end
-end
-
-function module:PLAYER_ENTERING_WORLD()
-  self:PLAYER_TALENT_UPDATE()
-end
-
 function module:BuildTicker()
   local ticker = CreateFrame("Frame", nil, PlayerFrameManaBar)
   ticker:SetAllPoints()
+  ticker:Hide()
 
   local spark = ticker:CreateTexture(nil, "OVERLAY")
   spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
@@ -115,25 +95,38 @@ end
 function module:SetUpHATTicker()
   if ns.playerClass ~= "ROGUE" then return end
 
-  self.HATTicker = self.HATTicker or self:BuildTicker()
-
-  local ticker = self.HATTicker
+  local ticker = self:BuildTicker()
   local width = ticker:GetWidth()
   local startTime = 0
+  local timeSinceProc = 0
+  local cooldown = 0
   local GetTime = GetTime
-  ticker:Hide()
 
   ticker:SetScript("OnUpdate", function(self, elapsed)
-    local timeSinceProc = GetTime() - startTime
-    if timeSinceProc > self.cooldown then self:Hide() end
-    self.spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / self.cooldown * width, 0)
+    timeSinceProc = GetTime() - startTime
+    if timeSinceProc > cooldown then self:Hide() return end
+    self.spark:SetPoint("CENTER", self, "LEFT", timeSinceProc / cooldown * width, 0)
   end)
 
-  ticker:SetScript("OnEvent", function(self)
-    local start = GetSpellCooldown(51699)
-    if start > 0 then
-      startTime = start
-      ticker:Show()
+  ticker:RegisterEvent("PLAYER_ENTERING_WORLD")
+  ticker:RegisterEvent("PLAYER_TALENT_UPDATE")
+
+  ticker:SetScript("OnEvent", function(self, event)
+    if event == "SPELL_UPDATE_COOLDOWN" then
+      local start = GetSpellCooldown(51699)
+      if start > 0 then
+        startTime = start
+        ticker:Show()
+      end
+    else
+      local _, _, _, _, rank = GetTalentInfo(3, 12)
+
+      if rank > 0 then
+        self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+        cooldown = 5 - rank
+      else
+        self:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
+      end
     end
   end)
 end
