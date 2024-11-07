@@ -24,3 +24,9 @@ ns.Module = {
   UnregisterEvent = function(self, event, ...) self.EventManager:UnregisterEvent(event) end,
   UnregisterAllEvents = function(self, event, ...) self.EventManager:UnregisterAllEvents() end,
 }
+
+-- must wait until ADDON_LOADED before calling GetDB
+function ns:GetDB()
+  stakoTweaksDB = stakoTweaksDB or {}
+  return stakoTweaksDB
+end
