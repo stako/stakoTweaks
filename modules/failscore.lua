@@ -136,7 +136,7 @@ function module:UpdateRankings()
     local player = sortedList[i]
 
     if i > 1 and player.score < sortedList[i-1].score then
-      currentRank = currentRank + 1
+      currentRank = i
     end
 
     rankings[player.guid] = currentRank
