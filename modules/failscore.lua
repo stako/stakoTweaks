@@ -105,14 +105,24 @@ function module:UpdateLeader(guid)
     if guid ~= leader.guid then
       leader.guid = guid
       self:AnnounceNewLeader()
+    else
+      self:AnnounceSameLeader()
     end
   end
 end
 
 function module:AnnounceNewLeader()
   local leader = self.guilddb.leader
+  local death = leader.score > 1 and " DEATHS" or " DEATH"
+  local message = string.upper(leader.name) .. " HAS TAKEN THE LEAD WITH " .. leader.score .. death .. "! Whisper me 'failscore' for your score."
+
+  SendChatMessage(message, "RAID")
+end
+
+function module:AnnounceSameLeader()
+  local leader = self.guilddb.leader
   local death = leader.score > 1 and " deaths" or " death"
-  local message = leader.name .. " has taken the lead with " .. leader.score .. death .. "! Whisper me 'failscore' for your score."
+  local message = leader.name .. " continues to lead, now with " .. leader.score .. death .. ". Whisper me 'failscore' for your score."
 
   SendChatMessage(message, "RAID")
 end
