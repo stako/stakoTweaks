@@ -39,14 +39,14 @@ function module:CHAT_MSG_WHISPER(...)
   if not leader.name then return end
 
   local pluralizeDeath = leader.score > 1 and " deaths" or " death"
-  local leaderMessage = " || Leader: " .. leader.name .. " (" .. leader.score .. pluralizeDeath .. ")"
+  local leaderMessage = "   ||||   Leader: " .. leader.name .. " (" .. leader.score .. pluralizeDeath .. ")"
   local message
 
   if player then
     local rank = self.guilddb.rankings[guid]
-    local deathsMessage = "Deaths: " .. player.score
-    local rankMessage = " || Rank: " .. rank
-    message = deathsMessage .. rankMessage
+    local deathsMessage = " || Deaths: " .. player.score
+    local rankMessage = "Rank: " .. rank
+    message = rankMessage .. deathsMessage
     if rank > 1 then
       message = message .. leaderMessage
     end
