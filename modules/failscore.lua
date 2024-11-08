@@ -69,7 +69,7 @@ end
 
 function module:BuildDB()
   local db = ns:GetDB()
-  db.failscore = db.failscore or { lastDeath = 0, lastRanking = 0 }
+  db.failscore = db.failscore or {}
   self.db = db.failscore
 end
 
@@ -92,7 +92,7 @@ function module:IncreaseScore(guid, name)
     playerdb.score = playerdb.score + 1
   end
 
-  self.db.lastDeath = GetTime()
+  self.guilddb.rankingsOutdated = true
 end
 
 function module:UpdateLeader(guid)
@@ -128,7 +128,7 @@ function module:AnnounceSameLeader()
 end
 
 function module:UpdateRankings()
-  if self.db.lastDeath < self.db.lastRanking then return end
+  if not self.guilddb.rankingsOutdated then return end
 
   local sortedList = {}
   local rankings = self.guilddb.rankings
@@ -154,6 +154,5 @@ function module:UpdateRankings()
     rankings[player.guid] = currentRank
   end
 
-
-  self.db.lastRanking = GetTime()
+  self.guilddb.rankingsOutdated = false
 end
