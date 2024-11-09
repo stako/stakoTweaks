@@ -58,9 +58,9 @@ function module:CHAT_MSG_WHISPER(...)
 end
 
 function module:COMBAT_LOG_EVENT_UNFILTERED()
-  local _, event, _, _, _, _, _, destGuid, destName, destFlags = CombatLogGetCurrentEventInfo()
+  local _, event, _, _, _, _, _, destGuid, destName, destFlags, _, spellId = CombatLogGetCurrentEventInfo()
 
-  if event == "UNIT_DIED" and hasFlag(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) then
+  if event == "UNIT_DIED" and hasFlag(destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) and UnitHealth(destName) <= 1 then
     self:UpdateGuildDB()
     self:IncreaseScore(destGuid, destName)
     self:UpdateLeader(destGuid)
@@ -134,7 +134,7 @@ function module:UpdateRankings()
   local rankings = self.guilddb.rankings
 
   for guid, data in pairs(self.guilddb) do
-    if guid ~= "leader" and guid ~= "rankings" then
+    if guid ~= "leader" and guid ~= "rankings" and type(data) == "table" then
       tinsert(sortedList, {guid = guid, score = data.score})
     end
   end
