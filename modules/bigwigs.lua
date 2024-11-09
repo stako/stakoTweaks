@@ -147,7 +147,7 @@ do
 
     local barBackdrop = bar.candyBarBackdrop
     barBackdrop:SetBackdrop(backdropInfo)
-    barBackdrop:SetBackdropColor(0, 0, 0, 0.7)
+    barBackdrop:SetBackdropColor(0, 0, 0, 0.5)
     barBackdrop:SetAllPoints()
     barBackdrop:Show()
 
