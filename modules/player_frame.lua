@@ -10,7 +10,8 @@ function module:ADDON_LOADED(name)
 
   PlayerFrameTexture:SetTexture("Interface\\AddOns\\"..addonName.."\\textures\\UI-TargetingFrame")
   PlayerStatusTexture:SetTexture("Interface\\AddOns\\"..addonName.."\\textures\\UI-Player-Status")
-  PlayerStatusTexture:SetPoint("TOPLEFT", 35, -10)
+  PlayerStatusTexture:SetPoint("TOPLEFT", 35, -9)
+  PlayerStatusTexture:SetHeight(69)
 
   hooksecurefunc("PlayerFrame_ToVehicleArt", module.PlayerFrame_ToVehicleArt)
   hooksecurefunc("PlayerFrame_ToPlayerArt", module.PlayerFrame_ToPlayerArt)
