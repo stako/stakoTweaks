@@ -7,6 +7,8 @@ function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
   TargetFrameNameBackground:SetTexture()
+  TargetFrameHealthBar.lockColor = true
+  FocusFrameHealthBar.lockColor = true
   TargetFrameHealthBar:SetSize(120, 25)
   TargetFrameHealthBar:SetPoint("TOPRIGHT", -106, -24)
   TargetFrameManaBar:SetSize(120, 12)
@@ -48,15 +50,16 @@ function module.TargetFrame_CheckClassification(self, forceNormalTexture)
 end
 
 function module.UnitFrameHealthBar_Update(statusbar, unit)
-  if  (statusbar ~= TargetFrameHealthBar and statusbar ~= FocusFrameHealthBar) or
-      statusbar.disconnected or
-      statusbar.lockColor or
-      unit ~= statusbar.unit or
-      not UnitIsPlayer(unit)
-  then
+  if  (statusbar ~= TargetFrameHealthBar and statusbar ~= FocusFrameHealthBar) or unit ~= statusbar.unit then
     return
   end
-  
-  local _, class = UnitClass(unit)
-  statusbar:SetStatusBarColor(RAID_CLASS_COLORS[class]:GetRGB())
+
+  if statusbar.disconnected then
+    statusbar:SetStatusBarColor(0.5, 0.5, 0.5)
+  elseif UnitIsPlayer(unit) then
+    local _, class = UnitClass(unit)
+    statusbar:SetStatusBarColor(RAID_CLASS_COLORS[class]:GetRGB())
+  else
+    statusbar:SetStatusBarColor(0, 1, 0)
+  end
 end
