@@ -12,12 +12,14 @@ modules/combat_text.lua
 modules/totems.lua
 modules/power_bar.lua
 modules/target_health.lua
+modules/player_frame.lua
+modules/target_frame.lua
 # modules/pet_frame.lua
 modules/bigwigs.lua
 modules/raid_warning.lua
 modules/cata_fixes.lua
 modules/combo_points.lua
-modules/spell_activity.xml
-modules/spell_activity.lua
+# modules/spell_activity.xml
+# modules/spell_activity.lua
 modules/hide_frames.lua
 modules/failscore.lua
