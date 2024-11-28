@@ -6,12 +6,14 @@ module:RegisterEvent("ADDON_LOADED")
 function module:ADDON_LOADED(name)
   if name ~= addonName then return end
 
-  self:HidePlayerPowerBarAlt()
+  self:HideFrame(PlayerPowerBarAlt)
+  self:HideFrame(TargetFramePowerBarAlt)
+  self:HideFrame(FocusFramePowerBarAlt)
 end
 
-function module:HidePlayerPowerBarAlt()
-  if not PlayerPowerBarAlt then return end
+function module:HideFrame(frame)
+  if not frame then return end
 
-  PlayerPowerBarAlt:UnregisterAllEvents()
-  PlayerPowerBarAlt:Hide()
+  frame:UnregisterAllEvents()
+  frame:Hide()
 end
