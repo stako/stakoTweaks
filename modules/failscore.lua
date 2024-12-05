@@ -74,12 +74,14 @@ function module:BuildDB()
 end
 
 function module:UpdateGuildDB()
-  if self.guilddb then return end
-
   local guild = GetGuildInfo("player")
   if not guild then guild = "No Guild" end
 
-  self.db[guild] = self.db[guild] or { rankings = {}, leader = {score = 0}}
+  if self.db[guild] and (time() - self.db[guild].lastRecord > 21600) then
+    self.db[guild] = nil
+  end
+
+  self.db[guild] = self.db[guild] or { rankings = {}, leader = {score = 0}, lastRecord = time() }
   self.guilddb = self.db[guild]
 end
 
@@ -92,6 +94,7 @@ function module:IncreaseScore(guid, name)
     playerdb.score = playerdb.score + 1
   end
 
+  self.guilddb.lastRecord = time()
   self.guilddb.rankingsOutdated = true
 end
 
