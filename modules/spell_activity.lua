@@ -8,6 +8,7 @@ local SPELL_ACTIVITY_MAX = 5
 local BLOCKLISTED_ACTIVITY_SPELLS = {
   -- Misc
   [93079] = "Launch Quest",
+  [93217] = "Launch Quest",
   [836] = "LOGINEFFECT",
   [6478] = "Opening",
 
@@ -18,7 +19,10 @@ local BLOCKLISTED_ACTIVITY_SPELLS = {
 
   -- Rogue
   [5374] = "Mutilate",
-  [27576] = "Mutilate Off-Hand"
+  [27576] = "Mutilate Off-Hand",
+
+  -- Priest
+  [47540] = "Penance"
 }
 
 module:RegisterEvent("ADDON_LOADED")
@@ -36,6 +40,7 @@ function module:ADDON_LOADED(name)
 end
 
 function module:UNIT_SPELLCAST_SUCCEEDED(unitTarget, castGUID, spellID)
+  -- print(spellID)
   if BLOCKLISTED_ACTIVITY_SPELLS[spellID] then return end
 
   local _, spellTextureNoOverride = GetSpellTexture(spellID)
