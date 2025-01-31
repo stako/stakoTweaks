@@ -8,22 +8,25 @@ function module:ADDON_LOADED(name)
 
   TargetFrameNameBackground:SetTexture()
   TargetFrameHealthBar.lockColor = true
-  FocusFrameHealthBar.lockColor = true
   TargetFrameHealthBar:SetSize(120, 25)
   TargetFrameHealthBar:SetPoint("TOPRIGHT", -106, -24)
   TargetFrameManaBar:SetSize(120, 12)
   TargetFrameTextureFrameDeadText:SetPoint("CENTER", -50, 7)
-  FocusFrameTextureFrameDeadText:SetPoint("CENTER", -50, 7)
-  TargetFrameTextureFrame.HealthBarText:SetPoint("CENTER", -50, 7)
-  TargetFrameTextureFrame.HealthBarTextLeft:SetPoint("LEFT", 6, 7)
-  TargetFrameTextureFrame.HealthBarTextRight:SetPoint("RIGHT", -110, 7)
-  TargetFrameTextureFrame.ManaBarText:SetPoint("CENTER", -50, -7)
-  TargetFrameTextureFrame.ManaBarTextLeft:SetPoint("LEFT", 6, -7)
-  TargetFrameTextureFrame.ManaBarTextRight:SetPoint("RIGHT", -110, -7)
 
-  FocusFrameNameBackground:SetTexture()
-  FocusFrameHealthBar:SetSize(120, 25)
-  FocusFrameHealthBar:SetPoint("TOPRIGHT", -106, -24)
+  if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then
+    TargetFrameTextureFrame.HealthBarText:SetPoint("CENTER", -50, 7)
+    TargetFrameTextureFrame.HealthBarTextLeft:SetPoint("LEFT", 6, 7)
+    TargetFrameTextureFrame.HealthBarTextRight:SetPoint("RIGHT", -110, 7)
+    TargetFrameTextureFrame.ManaBarText:SetPoint("CENTER", -50, -7)
+    TargetFrameTextureFrame.ManaBarTextLeft:SetPoint("LEFT", 6, -7)
+    TargetFrameTextureFrame.ManaBarTextRight:SetPoint("RIGHT", -110, -7)
+
+    FocusFrameNameBackground:SetTexture()
+    FocusFrameHealthBar.lockColor = true
+    FocusFrameHealthBar:SetSize(120, 25)
+    FocusFrameHealthBar:SetPoint("TOPRIGHT", -106, -24)
+    FocusFrameTextureFrameDeadText:SetPoint("CENTER", -50, 7)
+  end
 
   hooksecurefunc("TargetFrame_CheckClassification", module.TargetFrame_CheckClassification)
   hooksecurefunc("UnitFrameHealthBar_Update", module.UnitFrameHealthBar_Update)
