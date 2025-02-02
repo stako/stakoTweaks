@@ -12,6 +12,9 @@ local spellList = {
   [100745] = true, -- Firestorm (Alysrazor)
 }
 
+local searingSeed = 98620
+local lastSearingSeedTimestamp = 0
+
 module:RegisterEvent("ADDON_LOADED")
 module:RegisterEvent("CHAT_MSG_WHISPER")
 module:RegisterEvent("ENCOUNTER_START")
@@ -50,11 +53,17 @@ function module:CHAT_MSG_WHISPER(...)
 end
 
 function module:COMBAT_LOG_EVENT_UNFILTERED()
-  local _, event, _, _, _, _, _, destGuid, destName, _, _, spellId, spellName = CombatLogGetCurrentEventInfo()
+  local timestamp, event, _, sourceGuid, sourceName, _, _, destGuid, destName, _, _, spellId, spellName = CombatLogGetCurrentEventInfo()
 
-  if event == "SPELL_DAMAGE" and spellList[spellId] then
-    SendChatMessage("FAILSCORE: " .. destName .. " got hit by " .. spellName, "RAID")
-    self:AddFail(destGuid, destName)
+  if event == "SPELL_DAMAGE" then
+    if spellList[spellId] then
+      SendChatMessage("FAILSCORE: " .. destName .. " got hit by " .. spellName, "RAID")
+      self:AddFail(destGuid, destName)
+    elseif spellId == searingSeed and sourceGuid ~= destGuid and timestamp - lastSearingSeedTimestamp > 1.0 then
+      lastSearingSeedTimestamp = timestamp
+      SendChatMessage("FAILSCORE: " .. sourceName .. " friendly fired with " .. spellName, "RAID")
+      self:AddFail(sourceGuid, sourceName)
+    end
   end
 end
 
