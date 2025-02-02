@@ -9,6 +9,8 @@ function module:ADDON_LOADED(name)
   self:HideFrame(PlayerPowerBarAlt)
   self:HideFrame(TargetFramePowerBarAlt)
   self:HideFrame(FocusFramePowerBarAlt)
+
+  PlayerFrameGroupIndicator:SetAlpha(0)
 end
 
 function module:HideFrame(frame)

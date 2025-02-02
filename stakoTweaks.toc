@@ -12,8 +12,6 @@ modules/combat_text.lua
 modules/totems.lua
 modules/power_bar.lua
 modules/target_health.lua
-modules/player_frame.lua
-modules/target_frame.lua
 # modules/pet_frame.lua
 modules/bigwigs.lua
 modules/raid_warning.lua
