@@ -15,6 +15,10 @@ local spellList = {
 local searingSeed = 98620
 local lastSearingSeedTimestamp = 0
 
+local function pluralizeFail(count)
+  return count > 1 and "fails" or "fail"
+end
+
 module:RegisterEvent("ADDON_LOADED")
 module:RegisterEvent("CHAT_MSG_WHISPER")
 module:RegisterEvent("ENCOUNTER_START")
@@ -25,24 +29,19 @@ function module:ADDON_LOADED(name)
   self:BuildDB()
 end
 
-function module:CHAT_MSG_WHISPER(...)
-  local msg, _, _, _, name, _, _, _, _, _, _, guid = ...
+function module:CHAT_MSG_WHISPER(msg, _, _, _, name, _, _, _, _, _, _, guid)
   if string.lower(msg) ~= "failscore" or not guid then return end
 
-  local player = self.db.playerData[guid]
   local leader = self.db.playerData[self.db.leaderGuid]
-
   if not leader then return end
 
-  local pluralizeFail = leader.failCount > 1 and " fails" or " fail"
-  local leaderMessage = "   ||||   Leader: " .. leader.name .. " (" .. leader.failCount .. pluralizeFails .. ")"
   local message
+  local leaderMessage = string.format("  ||  Leader: %s (%d %s)", leader.name, leader.failCount, pluralizeFail(leader.failCount))
 
+  local player = self.db.playerData[guid]
   if player then
-    local failsMessage = " || Fails: " .. player.failCount
-    local rankMessage = "Rank: " .. player.rank
-    message = rankMessage .. failsMessage
-    if rank > 1 then
+    message = string.format("Rank: %s (%d %s)", player.rank, player.failCount, pluralizeFail(player.failCount))
+    if player.rank == "TBD" or player.rank > 1 then
       message = message .. leaderMessage
     end
   else
@@ -86,7 +85,7 @@ function module:BuildDB()
 
   -- delete outdated db (8+ hours since creation)
   if not db.failscore or time() - db.failscore.createdTime > 28800 then
-    db.failscore = { playerData = {}, createdTime = time(), leaderGuid = nil }
+    db.failscore = { playerData = {}, createdTime = time() }
   end
 
   self.db = db.failscore
@@ -94,7 +93,7 @@ end
 
 function module:GetPlayerDB(guid)
   if not self.db.playerData[guid] then
-    self.db.playerData[guid] = { failCount = 0 }
+    self.db.playerData[guid] = { failCount = 0, rank = "TBD" }
   end
 
   return self.db.playerData[guid]
@@ -136,26 +135,25 @@ function module:UpdateRankings()
 end
 
 function module:UpdateLeader(guid)
-  if guid ~= self.db.leaderGuid then
+  if self.db.leaderGuid ~= guid then
     self.db.leaderGuid = guid
-    self:AnnounceNewLeader()
+    self:AnnounceLeader(true)
   else
-    self:AnnounceSameLeader()
+    self:AnnounceLeader(false)
   end
 end
 
-function module:AnnounceNewLeader()
+function module:AnnounceLeader(new)
   local leader = self.db.playerData[self.db.leaderGuid]
-  local fails = leader.failCount > 1 and " fails" or " fail"
-  local message = "FAILSCORE: " .. leader.name .. " has taken the lead with " .. leader.failCount .. fails .. ". Whisper me 'failscore' for your score."
+  local message = new and "has taken the lead with" or "continues to lead, now with"
 
-  SendChatMessage(message, "RAID")
-end
-
-function module:AnnounceSameLeader()
-  local leader = self.db.playerData[self.db.leaderGuid]
-  local fails = leader.failCount > 1 and " fails" or " fail"
-  local message = "FAILSCORE: " .. leader.name .. " continues to lead, now with " .. leader.failCount .. fails .. ". Whisper me 'failscore' for your score."
+  message = string.format(
+    "FAILSCORE: %s %s %d %s. Whisper me 'failscore' for your score.",
+    leader.name,
+    message,
+    leader.failCount,
+    pluralizeFail(leader.failCount)
+  )
 
   SendChatMessage(message, "RAID")
 end
