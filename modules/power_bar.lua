@@ -1,6 +1,11 @@
 local addonName, ns = ...
 local module = ns.Module:new()
 
+local powerSparkData = {
+  ["PRIEST"] = {spellId = 47755, talent = {1, 11}},
+  ["ROGUE"] = {spellId = 51699, talent = {3, 12}},
+}
+
 module:RegisterEvent("ADDON_LOADED")
 
 function module:ADDON_LOADED(name)
@@ -8,7 +13,7 @@ function module:ADDON_LOADED(name)
 
   hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", self.UpdatePowerBarText)
   self:SetUpEnergyTicker()
-  self:SetUpHATTicker()
+  self:SetUpPowerSpark()
 end
 
 function module.UpdatePowerBarText(statusFrame, textString, value, valueMin, valueMax)
@@ -36,7 +41,7 @@ function module:BuildTicker()
   spark:SetSize(32, 32)
   spark:SetPoint("CENTER")
   spark:SetBlendMode("ADD")
-  spark:SetAlpha(0.75)
+  spark:SetAlpha(0.65)
   ticker.spark = spark
 
   return ticker
@@ -92,10 +97,12 @@ function module:SetUpEnergyTicker()
   end)
 end
 
-function module:SetUpHATTicker()
+function module:SetUpPowerSpark()
   if WOW_PROJECT_ID ~= WOW_PROJECT_CATACLYSM_CLASSIC then return end
-  if ns.playerClass ~= "ROGUE" then return end
+  if not powerSparkData[ns.playerClass] then return end
 
+  local spellId = powerSparkData[ns.playerClass].spellId
+  local talent = powerSparkData[ns.playerClass].talent
   local ticker = self:BuildTicker()
   local width = ticker:GetWidth()
   local startTime = 0
@@ -114,17 +121,17 @@ function module:SetUpHATTicker()
 
   ticker:SetScript("OnEvent", function(self, event)
     if event == "SPELL_UPDATE_COOLDOWN" then
-      local start = GetSpellCooldown(51699)
+      local start, cd = GetSpellCooldown(spellId)
       if start > 0 then
         startTime = start
+        cooldown = cd
         ticker:Show()
       end
     else
-      local _, _, _, _, rank = GetTalentInfo(3, 12)
+      local _, _, _, _, rank = GetTalentInfo(unpack(talent))
 
       if rank > 0 then
         self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-        cooldown = 5 - rank
       else
         self:UnregisterEvent("SPELL_UPDATE_COOLDOWN")
       end
