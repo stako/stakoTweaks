@@ -1,5 +1,6 @@
 local addonName, ns = ...
 local module = ns.Module:new()
+local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
 
 local spellList = {
   [99224] = true,  -- Engulfing Flames (Ragnaros)
@@ -56,11 +57,11 @@ function module:COMBAT_LOG_EVENT_UNFILTERED()
 
   if event == "SPELL_DAMAGE" then
     if spellList[spellId] then
-      SendChatMessage("FAILSCORE: " .. destName .. " got hit by " .. spellName, "RAID")
+      SendChatMessage(string.format("FAILSCORE: %s got hit by %s", destName, spellName), "RAID")
       self:AddFail(destGuid, destName)
     elseif spellId == searingSeed and sourceGuid ~= destGuid and timestamp - lastSearingSeedTimestamp > 1.0 then
       lastSearingSeedTimestamp = timestamp
-      SendChatMessage("FAILSCORE: " .. sourceName .. " friendly fired with " .. spellName, "RAID")
+      SendChatMessage(string.format("FAILSCORE: %s friendly fired with %s", sourceName, spellName), "RAID")
       self:AddFail(sourceGuid, sourceName)
     end
   end
