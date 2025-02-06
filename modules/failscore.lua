@@ -146,7 +146,7 @@ end
 
 function module:AnnounceLeader(new)
   local leader = self.db.playerData[self.db.leaderGuid]
-  local message = new and "has taken the lead with" or "continues to lead, now with"
+  local message = new and "has taken the lead with" or "continues to lead with"
 
   message = string.format(
     "FAILSCORE: %s %s %d %s. Whisper me 'failscore' for your score.",
