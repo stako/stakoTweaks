@@ -112,6 +112,8 @@ local function sortFunc(a, b)
 end
 
 function module:UpdateRankings()
+  if next(self.db.playerData) == nil then return end
+
   local sortedList = {}
 
   for guid, data in pairs(self.db.playerData) do
