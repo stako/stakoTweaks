@@ -94,6 +94,11 @@ function module:UpdateExecuteThreshold()
     executeMessage = "Death"
     module:RegisterUnitEvent("UNIT_HEALTH", "target")
     module:RegisterEvent("PLAYER_TARGET_CHANGED")
+  elseif ns.playerClass == "WARLOCK" and GetPrimaryTalentTree() == 3 then
+    executeThreshold = 0.2
+    executeMessage = "Shadowburn"
+    module:RegisterUnitEvent("UNIT_HEALTH", "target")
+    module:RegisterEvent("PLAYER_TARGET_CHANGED")
   end
 end
 
