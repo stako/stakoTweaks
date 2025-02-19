@@ -8,6 +8,18 @@ local previousHealth = 0
 local executeThreshold
 local executeMessage
 
+local castToActive = {
+  ["Lock and Load"] = true
+}
+
+local blacklist = {
+  ["Improved Steady Shot"] = true,
+  ["Overpower"] = true,
+  ["Sic 'Em!"] = true,
+  ["Infusion of Light"] = true,
+  ["Daybreak"] = true
+}
+
 function module:ADDON_LOADED(name)
   if name ~= "Blizzard_CombatText" then return end
 
@@ -189,15 +201,12 @@ function module:CombatText_OnEvent(event, ...)
     data, arg3, arg4 = GetCurrentCombatTextEventInfo()
     messageType = arg1
     if messageType == "SPELL_CAST" then
-      if data == "Lock and Load" then
+      if castToActive[data] then
         messageType = "SPELL_ACTIVE"
-      elseif data == "Improved Steady Shot" then
+      elseif blacklist[data] then
         return
       end
-    elseif messageType == "SPELL_ACTIVE"
-    and (data == "Sic 'Em!"
-    or data == "Infusion of Light"
-    or data == "Daybreak") then
+    elseif messageType == "SPELL_ACTIVE" and blacklist[data] then
       return
     end
   elseif event == "RUNE_POWER_UPDATE" then
