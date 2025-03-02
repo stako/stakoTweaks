@@ -9,7 +9,8 @@ local executeThreshold
 local executeMessage
 
 local castToActive = {
-  ["Lock and Load"] = true
+  ["Lock and Load"] = true,
+  ["Sword and Board"] = true,
 }
 
 local blacklist = {
