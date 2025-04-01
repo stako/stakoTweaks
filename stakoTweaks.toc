@@ -20,4 +20,4 @@ modules/combo_points.lua
 # modules/spell_activity.xml
 # modules/spell_activity.lua
 modules/hide_frames.lua
-modules/failscore.lua
+# modules/failscore.lua
