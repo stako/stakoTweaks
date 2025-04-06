@@ -5,25 +5,30 @@ local SPELL_ACTIVITY_SPEED = 0.4
 local SPELL_ACTIVITY_DURATION = 5
 local SPELL_ACTIVITY_MAX = 5
 
-local BLOCKLISTED_ACTIVITY_SPELLS = {
+local BLOCKLISTED_ACTIVITY_SPELLS = tInvert({
   -- Misc
-  [93079] = "Launch Quest",
-  [93217] = "Launch Quest",
-  [836] = "LOGINEFFECT",
-  [6478] = "Opening",
+  93079,  -- Launch Quest
+  93217,  -- Launch Quest
+  836,    -- LOGINEFFECT
+  6478,   -- Opening
 
   -- Hunter
-  [75] = "Auto Shot",
-  [37506] = "Scatter Shot",
-  [80325] = "Camouflage",
+  75,     -- Auto Shot
+  37506,  -- Scatter Shot
+  80325,  -- Camouflage
 
   -- Rogue
-  [5374] = "Mutilate",
-  [27576] = "Mutilate Off-Hand",
+  5374,   -- Mutilate
+  27576,  -- Mutilate Off-Hand
 
   -- Priest
-  [47540] = "Penance"
-}
+  47540,  -- Penance
+
+  -- Warrior
+  71,    -- Defensive Stance
+  2457,  -- Battle Stance
+  2458   -- Berserker Stance
+})
 
 module:RegisterEvent("ADDON_LOADED")
 
