@@ -24,6 +24,10 @@ local BLOCKLISTED_ACTIVITY_SPELLS = tInvert({
   -- Priest
   47540,  -- Penance
 
+  -- Shaman
+  32175,  -- Stormstrike
+  32176,  -- Stormstrike Off-Hand
+
   -- Warrior
   71,    -- Defensive Stance
   2457,  -- Battle Stance
